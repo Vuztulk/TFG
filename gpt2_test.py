@@ -33,6 +33,8 @@ print(f'Predicted next word: {predicted_token}')
 pid = os.getpid()
 py = psutil.Process(pid)
 
+###############################################################
+
 memory_use = py.memory_info()[0]/2.**30  # memory use in GB
 print(f'Memory use: {memory_use} GB')
 

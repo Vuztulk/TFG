@@ -9,7 +9,7 @@ tokenizer = AutoTokenizer.from_pretrained('cardiffnlp/twitter-roberta-base-senti
 model = AutoModelForSequenceClassification.from_pretrained('cardiffnlp/twitter-roberta-base-sentiment')
 
 # Definimos una frase de entrada
-input_text = "This product is ok"
+input_text = "I love this"
 encoded_input = tokenizer(input_text, return_tensors='pt')
 
 # Inicializamos el perfilador de PyTorch

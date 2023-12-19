@@ -19,7 +19,7 @@ transform = transforms.Compose([
 ])
 
 # Cargamos y transformamos la imagen
-image = Image.open('Clasificacion Imagenes\Imagenes\Cama.jpg')
+image = Image.open('Clasificacion Imagenes/Imagenes/Golden Retriever.jpg')
 input_tensor = transform(image)
 input_batch = input_tensor.unsqueeze(0)
 
@@ -33,7 +33,7 @@ with torch.no_grad():
 print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 
 # Cargamos las etiquetas de clase desde el archivo JSON
-with open('Clasificacion Imagenes\imagenet-simple-labels.json') as f:
+with open('Clasificacion Imagenes/imagenet-simple-labels.json') as f:
     labels = json.load(f)
 
 # Definimos una función para obtener la etiqueta de la clase

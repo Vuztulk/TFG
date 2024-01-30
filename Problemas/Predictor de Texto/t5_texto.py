@@ -1,13 +1,12 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
+from transformers import T5Tokenizer, T5Model
 import psutil
 import os
 
 # Cargar el tokenizador y el modelo
-tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-model = GPT2LMHeadModel.from_pretrained('gpt2')
-model.config.pad_token_id = model.config.eos_token_id
+tokenizer = T5Tokenizer.from_pretrained('t5-base')
+model = T5Model.from_pretrained('t5-base')
 
 # Leer el texto de entrada desde un archivo .txt
 with open('./Problemas/Predictor de Texto/input.txt', 'r') as file:

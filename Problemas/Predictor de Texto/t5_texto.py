@@ -1,12 +1,12 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
-from transformers import T5Tokenizer, T5Model
+from transformers import T5Tokenizer, T5ForConditionalGeneration
 import psutil
 import os
 
 # Cargar el tokenizador y el modelo
 tokenizer = T5Tokenizer.from_pretrained('t5-base')
-model = T5Model.from_pretrained('t5-base')
+model = T5ForConditionalGeneration.from_pretrained('t5-base')
 
 # Leer el texto de entrada desde un archivo .txt
 with open('./Problemas/Predictor de Texto/input.txt', 'r') as file:

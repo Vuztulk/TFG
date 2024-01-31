@@ -1,25 +1,25 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
-from transformers import T2TMTModel, T2TMTTokenizer
+from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 import psutil
 import os
 
 # Cargar el tokenizador y el modelo
-tokenizer = T2TMTTokenizer.from_pretrained('Helsinki-NLP/opus-t2t-es-en')
-model = T2TMTModel.from_pretrained('Helsinki-NLP/opus-t2t-es-en')
+tokenizer = MBart50TokenizerFast.from_pretrained('facebook/mbart-large-50-many-to-many-mmt')
+model = MBartForConditionalGeneration.from_pretrained('facebook/mbart-large-50-many-to-many-mmt')
 
 # Leer el texto de entrada desde un archivo .txt
 with open('./Problemas/Predictor de Texto/input.txt', 'r') as file:
     input_text = file.read().replace('\n', '')
 
 # Codificar entrada
-input_ids = tokenizer.encode(input_text, return_tensors='pt')
+input_ids = tokenizer(input_text, return_tensors='pt').input_ids
 
 # Realizar la inferencia del modelo con el perfilador
 with torch.no_grad():
     with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
         with record_function("model_inference"):
-            outputs = model.generate(input_ids, max_length=200, num_return_sequences=1)
+            outputs = model.generate(input_ids, forced_bos_token_id=tokenizer.lang_code_to_id["en_XX"])
 
 # Imprimir las métricas del perfilador
 print("Métricas del perfilador:")

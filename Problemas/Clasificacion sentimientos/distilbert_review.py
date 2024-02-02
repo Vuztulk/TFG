@@ -5,11 +5,13 @@ import psutil
 import os
 
 # Cargamos el modelo y el tokenizador preentrenados
-tokenizer = AutoTokenizer.from_pretrained('cardiffnlp/twitter-roberta-base-sentiment')
-model = AutoModelForSequenceClassification.from_pretrained('cardiffnlp/twitter-roberta-base-sentiment')
+tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
+model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
 
 # Definimos una frase de entrada
-input_text = "I love this"
+with open('./Problemas/Clasificacion sentimientos/sentimientos.txt', 'r') as file:
+    input_text = file.readline().strip()
+    
 encoded_input = tokenizer(input_text, return_tensors='pt')
 
 # Inicializamos el perfilador de PyTorch
@@ -24,7 +26,7 @@ with torch.no_grad():
 print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 
 # Imprimimos la clase predicha
-sentiment_classes = ['negative', 'neutral', 'positive']
+sentiment_classes = ['negative', 'positive']
 print(f'Input text: {input_text}')
 print(f'Predicted sentiment: {sentiment_classes[predicted_class]}')
 

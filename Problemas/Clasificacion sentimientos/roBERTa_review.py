@@ -9,7 +9,7 @@ tokenizer = AutoTokenizer.from_pretrained('cardiffnlp/twitter-roberta-base-senti
 model = AutoModelForSequenceClassification.from_pretrained('cardiffnlp/twitter-roberta-base-sentiment')
 
 # Definimos una frase de entrada
-with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/sentimientos.txt', 'r') as file:
+with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', 'r') as file:
     input_text = file.readline().strip()
     
 encoded_input = tokenizer(input_text, return_tensors='pt')

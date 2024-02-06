@@ -5,8 +5,8 @@ import psutil
 import os
 
 # Cargamos el modelo y el tokenizador preentrenados
-tokenizer = AutoTokenizer.from_pretrained('distilroberta-base')
-model = AutoModelForSequenceClassification.from_pretrained('distilroberta-base')
+tokenizer = AutoTokenizer.from_pretrained('lordtt13/emo-mobilebert')
+model = AutoModelForSequenceClassification.from_pretrained('lordtt13/emo-mobilebert')
 
 # Definimos una frase de entrada
 with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', 'r') as file:

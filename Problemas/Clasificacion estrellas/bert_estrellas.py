@@ -9,7 +9,7 @@ tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncase
 model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 
 with open('./Problemas/Clasificacion sentimientos/input.txt', 'r') as file:
-    input_text = file.readline().strip()
+    input_text = file.read().strip()
 
 # Codificamos la entrada
 encoded_input = tokenizer(input_text, return_tensors='pt')

@@ -8,10 +8,10 @@ import os
 tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
 model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
 
-# Definimos una frase de entrada
-with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/sentimientos.txt', 'r') as file:
-    input_text = file.readline().strip()
-    
+with open('/home/tfg1/TFG/Problemas/Clasificacion estrellas/input.txt', 'r') as file:
+    input_text = file.read().strip()
+
+# Codificamos la entrada
 encoded_input = tokenizer(input_text, return_tensors='pt')
 
 # Inicializamos el perfilador de PyTorch
@@ -26,7 +26,7 @@ with torch.no_grad():
 print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 
 # Imprimimos la clase predicha
-sentiment_classes = ['negative', 'positive']
+sentiment_classes = ['1 estrella', '2 estrellas', '3 estrellas', '4 estrellas', '5 estrellas']
 print(f'Input text: {input_text}')
 print(f'Predicted sentiment: {sentiment_classes[predicted_class]}')
 

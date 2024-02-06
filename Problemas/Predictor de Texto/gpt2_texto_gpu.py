@@ -19,7 +19,7 @@ model.config.pad_token_id = model.config.eos_token_id
 model.to(device)
 
 # Leer el texto de entrada desde un archivo .txt
-with open('./Problemas/Predictor de Texto/input.txt', 'r') as file:
+with open('/home/tfg1/TFG/Problemas/Predictor de Texto/input.txt', 'r') as file:
     input_text = file.read().replace('\n', '')
 
 # Codificar entrada

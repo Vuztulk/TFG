@@ -20,7 +20,7 @@ attention_mask = torch.ones(input_ids.shape)
 with torch.no_grad():
     with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
         with record_function("model_inference"):
-            outputs = model.generate(input_ids, max_length=200, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
+            outputs = model.generate(input_ids, max_length=20, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
 
 # Imprimir las métricas del perfilador
 print("Métricas del perfilador:")

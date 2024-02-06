@@ -5,8 +5,8 @@ import psutil
 import os
 
 # Cargamos el modelo y el tokenizador preentrenados
-tokenizer = AutoTokenizer.from_pretrained('lordtt13/emo-mobilebert')
-model = AutoModelForSequenceClassification.from_pretrained('lordtt13/emo-mobilebert')
+tokenizer = AutoTokenizer.from_pretrained('sbcBI/sentiment_analysis_model')
+model = AutoModelForSequenceClassification.from_pretrained('sbcBI/sentiment_analysis_model')
 
 # Definimos una frase de entrada
 with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', 'r') as file:

@@ -8,7 +8,7 @@ import os
 tokenizer = AutoTokenizer.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 model = AutoModelForSequenceClassification.from_pretrained('nlptown/bert-base-multilingual-uncased-sentiment')
 
-with open('./Problemas/Clasificacion sentimientos/input.txt', 'r') as file:
+with open('/home/tfg1/TFG/Problemas/Clasificacion estrellas/input.txt', 'r') as file:
     input_text = file.read().strip()
 
 # Codificamos la entrada

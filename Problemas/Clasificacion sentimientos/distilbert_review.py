@@ -10,7 +10,7 @@ model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-unca
 
 # Definimos una frase de entrada
 with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', 'r') as file:
-    input_text = file.readline().strip()
+    input_text = file.read().strip()
     
 encoded_input = tokenizer(input_text, return_tensors='pt')
 

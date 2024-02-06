@@ -9,7 +9,7 @@ tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-es-en')
 model = MarianMTModel.from_pretrained('Helsinki-NLP/opus-mt-es-en')
 
 # Leer el texto de entrada desde un archivo .txt
-with open('./Problemas/Predictor de Texto/input.txt', 'r') as file:
+with open('./Problemas/Traductor/input.txt', 'r') as file:
     input_text = file.read().replace('\n', '')
 
 # Codificar entrada

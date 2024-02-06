@@ -5,7 +5,7 @@ import psutil
 import os
 
 # Leer el texto de entrada desde un archivo .txt
-with open('input.txt', 'r') as file:
+with open('./Problemas/Traductor/input.txt', 'r') as file:
     input_text = file.read().replace('\n', '')
 
 model = MBartForConditionalGeneration.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")

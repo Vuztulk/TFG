@@ -27,6 +27,7 @@ print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 
 # Decodificar la salida
 output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+print(f'Texto de entrada: {input_text}\n')
 print(f'Texto de salida: {output_text}')
 
 # Métricas adicionales

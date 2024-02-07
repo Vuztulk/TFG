@@ -6,7 +6,7 @@ import os
 
 # Cargar el tokenizador y el modelo
 tokenizer = AutoTokenizer.from_pretrained("loresiensis/traductor-en-es")
-model = AutoModelForSeq2SeqLM.from_pretrained("loresiensis/traductor-en-es")
+model = AutoModelForSeq2SeqLM.from_pretrained("loresiensis/traductor-en-es", from_tf=True)
 
 # Leer el texto de entrada desde un archivo .txt
 with open('/home/tfg1/TFG/Problemas/Traductor/input.txt', 'r') as file:
@@ -27,6 +27,7 @@ print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 
 # Decodificar la salida
 output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+print(f'Texto de entrada: {input_text}')
 print(f'Texto de salida: {output_text}')
 
 # Métricas adicionales

@@ -5,8 +5,8 @@ import psutil
 import os
 
 # Cargar el tokenizador y el modelo
-tokenizer = AutoTokenizer.from_pretrained("loresiensis/traductor-en-es")
-model = AutoModelForSeq2SeqLM.from_pretrained("loresiensis/traductor-en-es", from_tf=True)
+tokenizer = AutoTokenizer.from_pretrained("robertrengel/autotrain-traductor-en-es-2023-3608896666")
+model = AutoModelForSeq2SeqLM.from_pretrained("robertrengel/autotrain-traductor-en-es-2023-3608896666")
 
 # Leer el texto de entrada desde un archivo .txt
 with open('/home/tfg1/TFG/Problemas/Traductor/input.txt', 'r') as file:

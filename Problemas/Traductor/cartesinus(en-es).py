@@ -5,10 +5,8 @@ import psutil
 import os
 
 # Cargar el tokenizador y el modelo
-
 tokenizer = AutoTokenizer.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
 model = AutoModelForSeq2SeqLM.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
-
 
 # Leer el texto de entrada desde un archivo .txt
 with open('/home/tfg1/TFG/Problemas/Traductor/input.txt', 'r') as file:

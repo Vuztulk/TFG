@@ -1,6 +1,6 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
-from transformers import MarianMTModel, MarianTokenizer
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import psutil
 import os
 import threading
@@ -9,12 +9,13 @@ import time
 start_time = time.time()
 
 # Cargar el tokenizador y el modelo
-tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-es-en')
-model = MarianMTModel.from_pretrained('Helsinki-NLP/opus-mt-es-en')
+tokenizer = AutoTokenizer.from_pretrained("robertrengel/autotrain-traductor-en-es-2023-3608896666")
+model = AutoModelForSeq2SeqLM.from_pretrained("robertrengel/autotrain-traductor-en-es-2023-3608896666")
 
 # Leer el texto de entrada desde un archivo .txt
-with open('/home/tfg1/TFG/Problemas/Traductor/input.txt', 'r') as file:
-    input_text = file.read().replace('\n', '')
+#with open('/home/tfg1/TFG/Problemas/Traductor/input.txt', 'r') as file:
+    #input_text = file.read().replace('\n', '')
+input_text = "The Great Gatsby is a classic novel by F. Scott Fitzgerald set in the Jazz Age. It follows Jay Gatsby's pursuit of Daisy Buchanan, exploring themes of love, wealth, and the American Dream. Narrated by Nick Carraway, the story delves into the complexities of society and human relationships."
 
 # Codificar entrada
 input_ids = tokenizer.encode(input_text, return_tensors='pt')

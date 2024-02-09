@@ -1,6 +1,6 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
-from transformers import T5Tokenizer, T5ForConditionalGeneration
+from transformers import T5ForConditionalGeneration, T5Tokenizer
 import psutil
 import os
 import time
@@ -8,31 +8,29 @@ import time
 start_time = time.time()
 
 # Cargar el tokenizador y el modelo
-tokenizer = T5Tokenizer.from_pretrained('t5-base')
-model = T5ForConditionalGeneration.from_pretrained('t5-base')
-
+tokenizer = T5Tokenizer.from_pretrained("t5-small")
+model = T5ForConditionalGeneration.from_pretrained("t5-small")
 
 # Leer el texto de entrada desde un archivo .txt
 with open('/home/tfg1/TFG/Problemas/Predictor de Texto/input.txt', 'r') as file:
     input_text = file.read().replace('\n', '')
 
 # Codificar entrada
-input_ids = tokenizer.encode(input_text, return_tensors='pt')
-attention_mask = torch.ones(input_ids.shape)
+inputs = tokenizer.encode("summarize: " + input_text, return_tensors="pt", max_length=1024, truncation=True)
 
 # Realizar la inferencia del modelo con el perfilador
 with torch.no_grad():
     with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
         with record_function("model_inference"):
-            outputs = model.generate(input_ids, max_length=200, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
+            summary_ids = model.generate(inputs, max_length=100, min_length=30, num_beams=4, early_stopping=True)
 
 # Imprimir las métricas del perfilador
 print("Métricas del perfilador:")
 print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 
 # Decodificar la salida
-output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-print(f'Output text: {output_text}')
+summary_text = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+print(f"Resumen del texto: {summary_text}")
 
 # Métricas adicionales
 pid = os.getpid()

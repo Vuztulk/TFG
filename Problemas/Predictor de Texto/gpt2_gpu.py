@@ -3,6 +3,9 @@ from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 import psutil
 import os
+import time
+
+start_time = time.time()
 
 # Comprobar si hay una GPU disponible y, de ser así, usarla
 if torch.cuda.is_available():
@@ -49,3 +52,7 @@ print(f'Memory use: {memory_use} GB')
 
 cpu_use = psutil.cpu_percent(interval=None)
 print(f'CPU use: {cpu_use} %')
+
+end_time = time.time()
+duration = end_time - start_time
+print(f'La ejecución del código tardó {duration:.4f} segundos.')

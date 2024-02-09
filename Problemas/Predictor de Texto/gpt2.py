@@ -3,6 +3,10 @@ from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 import psutil
 import os
+import time
+
+# Marcar el tiempo de inicio
+start_time = time.time()
 
 # Cargar el tokenizador y el modelo
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
@@ -21,7 +25,7 @@ attention_mask = torch.ones(input_ids.shape)
 with torch.no_grad():
     with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
         with record_function("model_inference"):
-            outputs = model.generate(input_ids, max_length=200, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
+            outputs = model.generate(input_ids, max_length=100, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
 
 # Imprimir las métricas del perfilador
 print("Métricas del perfilador:")
@@ -40,3 +44,7 @@ print(f'Memory use: {memory_use} GB')
 
 cpu_use = psutil.cpu_percent(interval=None)
 print(f'CPU use: {cpu_use} %')
+
+end_time = time.time()
+duration = end_time - start_time
+print(f'La ejecución del código tardó {duration:.4f} segundos.')

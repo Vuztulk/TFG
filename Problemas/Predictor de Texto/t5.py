@@ -3,6 +3,9 @@ from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import psutil
 import os
+import time
+
+start_time = time.time()
 
 # Cargar el tokenizador y el modelo
 tokenizer = T5Tokenizer.from_pretrained('t5-base')
@@ -39,3 +42,7 @@ print(f'Memory use: {memory_use} GB')
 
 cpu_use = psutil.cpu_percent(interval=None)
 print(f'CPU use: {cpu_use} %')
+
+end_time = time.time()
+duration = end_time - start_time
+print(f'La ejecución del código tardó {duration:.4f} segundos.')

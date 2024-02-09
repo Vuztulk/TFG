@@ -3,6 +3,9 @@ from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import psutil
 import os
+import time
+
+start_time = time.time()
 
 # Cargamos el modelo y el tokenizador preentrenados
 tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
@@ -39,3 +42,7 @@ print(f'Memory use: {memory_use} GB')
 
 cpu_use = psutil.cpu_percent(interval=None)
 print(f'CPU use: {cpu_use} %')
+
+end_time = time.time()
+duration = end_time - start_time
+print(f'La ejecución del código tardó {duration:.4f} segundos.')

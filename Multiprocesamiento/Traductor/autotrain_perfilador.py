@@ -29,19 +29,17 @@ thread = threading.Thread(target=model_inference, args=(input_ids, outputs))
 
 # Define a custom profiling schedule
 my_schedule = schedule(
-    skip_first=10,
-    wait=5,
-    warmup=1,
-    active=3,
-    repeat=2
+    skip_first=0,
+    wait=0,
+    warmup=0,
+    active=100,
+    repeat=100
 )
 
 with profile(schedule=my_schedule, activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
     with record_function("model_inference"):
         thread.start()
         thread.join()
-
-# Imprimir las métricas del perfilador
 print("Métricas del perfilador:")
 print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 

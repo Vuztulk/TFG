@@ -29,11 +29,11 @@ thread = threading.Thread(target=model_inference, args=(input_ids, outputs))
 
 # Define a custom profiling schedule
 my_schedule = schedule(
-    skip_first=0,
-    wait=0,
-    warmup=0,
-    active=100,
-    repeat=100
+    skip_first=10,  # Ignora las primeras 10 iteraciones
+    wait=5,  # Espera 5 iteraciones después del calentamiento
+    warmup=10,  # Calienta durante 10 iteraciones
+    active=50,  # Recoge datos durante 50 iteraciones
+    repeat=10  # Repite el ciclo 10 veces
 )
 
 with profile(schedule=my_schedule, activities=[ProfilerActivity.CPU], record_shapes=True) as prof:

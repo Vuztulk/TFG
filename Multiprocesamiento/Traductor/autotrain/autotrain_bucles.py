@@ -18,7 +18,7 @@ input_ids = tokenizer.encode(input_text, return_tensors='pt')
 # Abrir el archivo de resultados
 with open('resultados.txt', 'w') as f:
     # Ejecutar el código 20 veces
-    for i in range(2):
+    for i in range(10):
         start_time = time.time()
 
         # Realizar la inferencia del modelo con el perfilador

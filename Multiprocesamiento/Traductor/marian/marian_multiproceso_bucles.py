@@ -37,10 +37,12 @@ with open('resultados.txt', 'w') as f:
                     outputs = future.result()
 
         # Guardamos las métricas del perfilador en el archivo
-        cpu_time = sum([item.cpu_time_total for item in prof.key_averages()])
-        cpu_time_seconds = cpu_time / 1_000_000
-        cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
-        f.write(f'{cpu_time_str}\n')
+        model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
+        if model_inference_event:
+            cpu_time = model_inference_event[0].cpu_time_total
+            cpu_time_seconds = cpu_time / 1_000_000
+            cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
+            f.write(f'{cpu_time_str}\n')
 
         # Decodificar la salida
         output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)

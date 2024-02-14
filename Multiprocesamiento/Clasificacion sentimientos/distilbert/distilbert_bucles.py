@@ -32,7 +32,7 @@ with open('resultados.txt', 'w') as f:
         # Guardamos las métricas del perfilador en el archivo
         cpu_time = sum([item.cpu_time_total for item in prof.key_averages()])
         cpu_time_seconds = cpu_time / 1_000_000
-        f.write(f'Tiempo de CPU: {cpu_time_seconds} segundos\n')
+        f.write(f'{cpu_time_seconds}\n')
 
         # Imprimimos la clase predicha
         sentiment_classes = ['negative', 'positive']
@@ -51,4 +51,4 @@ with open('resultados.txt', 'w') as f:
 
         end_time = time.time()
         duration = end_time - start_time
-        f.write(f'La ejecución del código tardó {duration:.4f} segundos.\n\n')
+        f.write(f'{duration:.4f}\n\n')

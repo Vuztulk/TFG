@@ -51,4 +51,4 @@ with open('resultados.txt', 'w') as f:
 
         end_time = time.time()
         duration = end_time - start_time
-        f.write(f'{duration:.4f}\n\n')
+        f.write(f'{duration:.4f}\n')

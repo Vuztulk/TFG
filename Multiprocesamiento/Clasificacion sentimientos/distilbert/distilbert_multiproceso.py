@@ -6,31 +6,29 @@ import os
 import time
 import concurrent.futures
 
-start_time = time.time()
-
-# Cargamos el modelo y el tokenizador preentrenados
-tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
-model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
-
-# Definimos una frase de entrada
-with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', 'r') as file:
-    input_text = file.read().strip()
-    
-encoded_input = tokenizer(input_text, return_tensors='pt')
-
 # Función para realizar la inferencia del modelo
-def model_inference(encoded_input):
+def model_inference(input_text):
+    # Cargamos el modelo y el tokenizador preentrenados
+    tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
+    model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
+    encoded_input = tokenizer(input_text, return_tensors='pt')
     with torch.no_grad():
         outputs = model(**encoded_input)
         logits = outputs.logits
         predicted_class = torch.argmax(logits).item()
     return predicted_class
 
+start_time = time.time()
+
+# Definimos una frase de entrada
+with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', 'r') as file:
+    input_text = file.read().strip()
+
 # Realizar la inferencia del modelo con el perfilador en paralelo
 with concurrent.futures.ProcessPoolExecutor() as executor:
     with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
         with record_function("model_inference"):
-            future = executor.submit(model_inference, encoded_input)
+            future = executor.submit(model_inference, input_text)
             predicted_class = future.result()
 
 # Imprimimos el informe del perfilador

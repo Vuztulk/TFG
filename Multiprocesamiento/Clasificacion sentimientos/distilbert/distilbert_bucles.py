@@ -32,7 +32,7 @@ with open('resultados.txt', 'w') as f:
         # Guardamos las métricas del perfilador en el archivo
         cpu_time = sum([item.cpu_time_total for item in prof.key_averages()])
         cpu_time_seconds = cpu_time / 1_000_000
-        cpu_time_str = str(cpu_time_seconds).replace('.', ',') 
+        cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
         f.write(f'{cpu_time_str}\n')
 
         # Imprimimos la clase predicha

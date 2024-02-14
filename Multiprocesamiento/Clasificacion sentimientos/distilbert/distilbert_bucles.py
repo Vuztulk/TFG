@@ -33,6 +33,7 @@ with open('resultados.txt', 'w') as f:
         cpu_time = sum([item.cpu_time_total for item in prof.key_averages()])
         cpu_time_seconds = cpu_time / 1_000_000
         cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
+        f.write("Tiempo CPU:")
         f.write(f'{cpu_time_str}\n')
 
         # Imprimimos la clase predicha
@@ -53,5 +54,6 @@ with open('resultados.txt', 'w') as f:
         end_time = time.time()
         duration = end_time - start_time
         duration_str = f'{duration:.4f}'.replace('.', ',')
+        f.write("Tiempo Total")
         f.write(f'{duration_str}\n')
 

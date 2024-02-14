@@ -25,9 +25,11 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
+                    model_start_time = time.time()
                     outputs = model(**encoded_input)
                     logits = outputs.logits
                     predicted_class = torch.argmax(logits).item()
+                    model_end_time = time.time()
 
         # Guardamos las métricas del perfilador en el archivo
         cpu_time = sum([item.cpu_time_total for item in prof.key_averages()])
@@ -36,8 +38,14 @@ with open('resultados.txt', 'w') as f:
         f.write("Tiempo CPU:")
         f.write(f'{cpu_time_str}\n')
 
+        # Guardamos el tiempo de ejecución del modelo
+        model_duration = model_end_time - model_start_time
+        model_duration_str = f'{model_duration:.4f}'.replace('.', ',')
+        f.write("Tiempo de ejecución del modelo:")
+        f.write(f'{model_duration_str}\n')
+
         # Imprimimos la clase predicha
-        sentiment_classes = ['negative', 'positive']
+        #sentiment_classes = ['negative', 'positive']
         #f.write(f'Texto de entrada: {input_text}\n')
         #f.write(f'Sentimiento predicho: {sentiment_classes[predicted_class]}\n')
 
@@ -56,4 +64,3 @@ with open('resultados.txt', 'w') as f:
         duration_str = f'{duration:.4f}'.replace('.', ',')
         f.write("Tiempo Total")
         f.write(f'{duration_str}\n')
-

@@ -33,7 +33,7 @@ with open('resultados.txt', 'w') as f:
         cpu_time = sum([item.cpu_time_total for item in prof.key_averages()])
         cpu_time_seconds = cpu_time / 1_000_000
         cpu_time_str = str(cpu_time_seconds).replace('.', ',') 
-        f.write(f'{cpu_time_str:.4f}\n')
+        f.write(f'{cpu_time_str}\n')
 
         # Imprimimos la clase predicha
         sentiment_classes = ['negative', 'positive']
@@ -53,4 +53,5 @@ with open('resultados.txt', 'w') as f:
         end_time = time.time()
         duration = end_time - start_time
         duration_str = f'{duration:.4f}'.replace('.', ',')
-        f.write(f'{duration_str:.4f}\n')
+        f.write(f'{duration_str}\n')
+

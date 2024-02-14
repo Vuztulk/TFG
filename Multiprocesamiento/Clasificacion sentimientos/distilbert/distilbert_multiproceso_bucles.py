@@ -6,14 +6,13 @@ import os
 import time
 import concurrent.futures
 
-# Cargamos el modelo y el tokenizador preentrenados
-tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
-model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
-
 # Función para realizar la inferencia del modelo
 def model_inference(input_text):
+    # Cargamos el modelo y el tokenizador preentrenados
+    tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
+    model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
+    encoded_input = tokenizer(input_text, return_tensors='pt')
     with torch.no_grad():
-        encoded_input = tokenizer(input_text, return_tensors='pt')
         outputs = model(**encoded_input)
         logits = outputs.logits
         predicted_class = torch.argmax(logits).item()

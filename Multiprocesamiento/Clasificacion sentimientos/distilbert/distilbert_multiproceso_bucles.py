@@ -11,8 +11,9 @@ tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst
 model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
 
 # Función para realizar la inferencia del modelo
-def model_inference(encoded_input):
+def model_inference(input_text):
     with torch.no_grad():
+        encoded_input = tokenizer(input_text, return_tensors='pt')
         outputs = model(**encoded_input)
         logits = outputs.logits
         predicted_class = torch.argmax(logits).item()
@@ -28,13 +29,11 @@ with open('resultados.txt', 'w') as f:
         with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', 'r') as file:
             input_text = file.read().strip()
 
-        encoded_input = tokenizer(input_text, return_tensors='pt')
-
         # Realizamos la inferencia del modelo con el perfilador en paralelo
         with concurrent.futures.ProcessPoolExecutor() as executor:
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
-                    future = executor.submit(model_inference, encoded_input)
+                    future = executor.submit(model_inference, input_text)
                     predicted_class = future.result()
 
         # Guardamos las métricas del perfilador en el archivo

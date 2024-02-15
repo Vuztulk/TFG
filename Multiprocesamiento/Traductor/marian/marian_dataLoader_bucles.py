@@ -38,7 +38,7 @@ with open('resultados.txt', 'w') as f:
                     for i, input_text in enumerate(dataloader):
                         input_ids = tokenizer.encode(input_text[0], return_tensors='pt')
                         outputs = model.generate(input_ids, max_length=200, num_return_sequences=1)
-                        #output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+                        output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
                         #print(f'Texto de entrada: {input_text[0]}\n')
                         #print(f'Texto de salida: {output_text}\n')
 

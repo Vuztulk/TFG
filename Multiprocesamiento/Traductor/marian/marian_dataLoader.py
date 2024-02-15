@@ -24,8 +24,11 @@ tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-es-en')
 model = MarianMTModel.from_pretrained('Helsinki-NLP/opus-mt-es-en')
 
 # Crear un DataLoader con paralelización a nivel de datos
-dataset = TextDataset('/home/tfg1/TFG/Problemas/Traductor/input.txt')
+dataset = TextDataset('/home/tfg1/TFG/Multiprocesamiento/Traductor/marian/input.txt')
 dataloader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=4)
+
+# Inicializar una lista para guardar las traducciones
+translations = []
 
 # Realizar la inferencia del modelo con el perfilador
 with torch.no_grad():
@@ -35,8 +38,15 @@ with torch.no_grad():
                 input_ids = tokenizer.encode(input_text[0], return_tensors='pt')
                 outputs = model.generate(input_ids, max_length=200, num_return_sequences=1)
                 output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-                print(f'Texto de entrada: {input_text[0]}\n')
-                print(f'Texto de salida: {output_text}\n')
+                translations.append((input_text[0], output_text))
+
+# Unir todas las partes del texto de entrada y salida
+input_text = '. '.join([text for text, _ in translations])
+output_text = '. '.join([text for _, text in translations])
+
+# Imprimir el texto de entrada y salida
+print(f'Texto de entrada: {input_text}\n')
+print(f'Texto de salida: {output_text}\n')
 
 # Imprimir las métricas del perfilador
 print("Métricas del perfilador:")

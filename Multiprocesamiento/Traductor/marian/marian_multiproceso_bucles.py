@@ -18,9 +18,13 @@ def process_text(input_text):
     output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     # Obtener el tiempo del perfilador
-    profiler_time = sum([item.cpu_time_total for item in prof.key_averages()])
+    model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
+    if model_inference_event:
+            cpu_time = model_inference_event[0].cpu_time_total
+            cpu_time_seconds = cpu_time / 1_000_000
+            cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
 
-    return output_text, profiler_time
+    return output_text, cpu_time_str
 
 # Cargar el tokenizador y el modelo
 tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-es-en')
@@ -35,18 +39,20 @@ parts = input_text.split('.')
 # Abrir el archivo de resultados
 with open('resultados.txt', 'w') as f:
     # Ejecutar el código 10 veces
-    for _ in range(10):
+    for _ in range(2):
         start_time = time.time()
 
         # Crear un pool de procesos
         with Pool(processes=4) as pool:
             results = pool.map(process_text, parts)
 
+        # Sumar los tiempos de todos los procesos
+        total_profiler_time = sum([float(result[1].replace(',', '.')) for result in results])
+
         # Guardar los resultados
-        for i, result in enumerate(results):
-            output_text, profiler_time = result
-            f.write(f'{profiler_time}\n')
+        f.write(f'{total_profiler_time:.4f}\n'.replace('.', ','))
+
 
         end_time = time.time()
         duration = end_time - start_time
-        f.write(f'{duration:.4f}\n')
+        f.write(f'{duration:.4f}\n'.replace('.', ','))

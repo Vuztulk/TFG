@@ -31,7 +31,7 @@ tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-es-en')
 model = MarianMTModel.from_pretrained('Helsinki-NLP/opus-mt-es-en')
 
 # Leer el texto de entrada desde un archivo .txt
-input_text = " En un lugar de la mancha, de cuyo nombre no quiero acordarme. no ha mucho tiempo que vivia un hidalgo de los de lanza en astillero.adarga antigua, rocin flaco y galgo corredor."
+input_text = "En un lugar de la mancha, de cuyo nombre no quiero acordarme. no ha mucho tiempo que vivia un hidalgo de los de lanza en astillero.adarga antigua, rocin flaco y galgo corredor."
 
 # Dividir el texto de entrada en partes
 parts = input_text.split('.')
@@ -43,7 +43,7 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
         # Crear un pool de procesos
-        with Pool(processes=4) as pool:
+        with Pool(processes=len(parts)) as pool:
             results = pool.map(process_text, parts)
 
         # Sumar los tiempos de todos los procesos

@@ -11,7 +11,6 @@ start_time = time.time()
 tokenizer = BartTokenizer.from_pretrained("facebook/bart-large-cnn")
 model = BartForConditionalGeneration.from_pretrained("facebook/bart-large-cnn")
 
-
 # Leer el texto de entrada desde un archivo .txt
 with open('/home/tfg1/TFG/Problemas/Resumen de texto/input.txt', 'r') as file:
     input_text = file.read().replace('\n', '')

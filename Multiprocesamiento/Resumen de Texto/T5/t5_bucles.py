@@ -36,6 +36,8 @@ with open('resultados.txt', 'w') as f:
             cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
             f.write(f'{cpu_time_str}\n')
 
+        summary_text = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
+        
         end_time = time.time()
         duration = end_time - start_time
         duration_str = f'{duration:.4f}'.replace('.', ',')

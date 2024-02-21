@@ -18,7 +18,8 @@ class TextDataset(Dataset):
     def __getitem__(self, idx):
         input_text = self.text[idx]
         encoded_input = self.tokenizer(input_text, return_tensors='pt')
-        return encoded_input
+        return {key: val.squeeze(0) for key, val in encoded_input.items()}
+
 
 # Cargamos el modelo y el tokenizador preentrenados
 tokenizer = AutoTokenizer.from_pretrained('sbcBI/sentiment_analysis_model')

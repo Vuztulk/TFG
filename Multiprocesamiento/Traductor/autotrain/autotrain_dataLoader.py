@@ -16,7 +16,9 @@ class TextDataset(Dataset):
         return len(self.text)
 
     def __getitem__(self, idx):
-        return self.tokenizer(self.text[idx], return_tensors='pt').input_ids.squeeze()
+        tokenized = self.tokenizer(self.text[idx], return_tensors='pt')
+        return {key: tensor.squeeze() for key, tensor in tokenized.items()}
+
 
 # Cargar el tokenizador y el modelo
 tokenizer = AutoTokenizer.from_pretrained("robertrengel/autotrain-traductor-en-es-2023-3608896666")

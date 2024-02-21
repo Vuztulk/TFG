@@ -43,20 +43,6 @@ with open('resultados.txt', 'w') as f:
             cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
             f.write(f'{cpu_time_str}\n')
 
-        # Imprimimos la clase predicha
-        #f.write(f'Texto de entrada: {input_text}\n')
-        #f.write(f'Texto de salida: {output_text}\n')
-
-        # Métricas adicionales
-        #pid = os.getpid()
-        #py = psutil.Process(pid)
-
-        #memory_use = py.memory_info()[0]/2.**30  # memory use in GB
-        #f.write(f'Uso de memoria: {memory_use} GB\n')
-
-        #cpu_use = psutil.cpu_percent(interval=None)
-        #f.write(f'Uso de CPU: {cpu_use} %\n')
-
         end_time = time.time()
         duration = end_time - start_time
         duration_str = f'{duration:.4f}'.replace('.', ',')

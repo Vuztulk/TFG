@@ -7,22 +7,26 @@ import os
 import time
 
 class TextDataset(Dataset):
-    def __init__(self, filename):
+    def __init__(self, filename, tokenizer):
         with open(filename, 'r') as file:
             self.text = file.read().strip().split('. ')
+        self.tokenizer = tokenizer
 
     def __len__(self):
         return len(self.text)
 
     def __getitem__(self, idx):
-        return self.text[idx]
+        input_text = self.text[idx]
+        encoded_input = self.tokenizer(input_text, return_tensors='pt')
+        return {key: val.squeeze(0) for key, val in encoded_input.items()}
+
 
 # Cargamos el modelo y el tokenizador preentrenados
 tokenizer = AutoTokenizer.from_pretrained('sbcBI/sentiment_analysis_model')
 model = AutoModelForSequenceClassification.from_pretrained('sbcBI/sentiment_analysis_model')
 
 # Creamos un DataLoader con paralelización a nivel de datos
-dataset = TextDataset('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt')
+dataset = TextDataset('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', tokenizer)
 dataloader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=4)
 
 # Abrimos el archivo de resultados
@@ -35,8 +39,7 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
-                    for input_text in dataloader:
-                        encoded_input = tokenizer(input_text[0], return_tensors='pt')
+                    for encoded_input in dataloader:
                         outputs = model(**encoded_input)
                         logits = outputs.logits
                         predicted_class = torch.argmax(logits).item()

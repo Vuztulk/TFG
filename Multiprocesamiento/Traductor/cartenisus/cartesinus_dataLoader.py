@@ -8,16 +8,19 @@ from torch.utils.data import Dataset, DataLoader
 
 # Define una clase para el conjunto de datos
 class TextDataset(Dataset):
-    def __init__(self, filename, tokenizer):
+    def __init__(self, filename, tokenizer, sequence_length=512):
         with open(filename, 'r') as file:
             self.text = file.read().replace('\n', '')
         self.tokenizer = tokenizer
+        self.sequence_length = sequence_length
 
     def __len__(self):
-        return len(self.text)
+        return len(self.text) // self.sequence_length
 
     def __getitem__(self, idx):
-        return self.tokenizer(self.text[idx], return_tensors='pt')
+        start = idx * self.sequence_length
+        end = start + self.sequence_length
+        return self.tokenizer(self.text[start:end], return_tensors='pt')
 
 # Cargar el tokenizador y el modelo
 tokenizer = AutoTokenizer.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")

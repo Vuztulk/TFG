@@ -1,26 +1,22 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-import psutil
-import os
-import time
 from torch.utils.data import Dataset, DataLoader
+import time
 
 # Define una clase para el conjunto de datos
 class TextDataset(Dataset):
-    def __init__(self, filename, tokenizer, sequence_length=512):
+    def __init__(self, filename, tokenizer):
         with open(filename, 'r') as file:
-            self.text = file.read().replace('\n', '')
+            self.text = file.readlines()
         self.tokenizer = tokenizer
-        self.sequence_length = sequence_length
 
     def __len__(self):
-        return len(self.text) // self.sequence_length
+        return len(self.text)
 
     def __getitem__(self, idx):
-        start = idx * self.sequence_length
-        end = start + self.sequence_length
-        return self.tokenizer(self.text[start:end], return_tensors='pt')
+        tokenized = self.tokenizer(self.text[idx], return_tensors='pt')
+        return {key: tensor.squeeze() for key, tensor in tokenized.items()}
 
 # Cargar el tokenizador y el modelo
 tokenizer = AutoTokenizer.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
@@ -37,13 +33,11 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
         # Realizar la inferencia del modelo con el perfilador
-        # Realizar la inferencia del modelo con el perfilador
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
                     for input_batch in dataloader:
-                        generated_tokens = model.generate(**input_batch, forced_bos_token_id=tokenizer.get_lang_id("es"))
-                output_text = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)[0]
+                        generated_tokens = model.generate(input_ids=input_batch['input_ids'], forced_bos_token_id=tokenizer.get_lang_id("es"))
         
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

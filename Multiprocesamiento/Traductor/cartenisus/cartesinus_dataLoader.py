@@ -44,7 +44,6 @@ with open('resultados.txt', 'w') as f:
                     for input_batch in dataloader:
                         generated_tokens = model.generate(**input_batch, forced_bos_token_id=tokenizer.get_lang_id("es"))
                 output_text = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)[0]
-
         
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

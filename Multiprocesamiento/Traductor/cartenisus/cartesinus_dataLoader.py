@@ -37,11 +37,14 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
         # Realizar la inferencia del modelo con el perfilador
+        # Realizar la inferencia del modelo con el perfilador
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
                     for input_batch in dataloader:
                         generated_tokens = model.generate(**input_batch, forced_bos_token_id=tokenizer.get_lang_id("es"))
+                output_text = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)[0]
+
         
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

@@ -1,23 +1,22 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-import psutil
-import os
-import time
 from torch.utils.data import Dataset, DataLoader
+import time
 
 # Define una clase para el conjunto de datos
 class TextDataset(Dataset):
     def __init__(self, filename, tokenizer):
         with open(filename, 'r') as file:
-            self.text = file.read().replace('\n', '')
+            self.text = file.readlines()
         self.tokenizer = tokenizer
 
     def __len__(self):
         return len(self.text)
 
     def __getitem__(self, idx):
-        return self.tokenizer(self.text[idx], return_tensors='pt')
+        tokenized = self.tokenizer(self.text[idx], return_tensors='pt')
+        return {key: tensor.squeeze() for key, tensor in tokenized.items()}
 
 # Cargar el tokenizador y el modelo
 tokenizer = AutoTokenizer.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
@@ -38,7 +37,7 @@ with open('resultados.txt', 'w') as f:
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
                     for input_batch in dataloader:
-                        generated_tokens = model.generate(**input_batch, forced_bos_token_id=tokenizer.get_lang_id("es"))
+                        generated_tokens = model.generate(input_ids=input_batch['input_ids'], forced_bos_token_id=tokenizer.get_lang_id("es"))
         
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

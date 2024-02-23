@@ -5,7 +5,7 @@ import psutil
 import os
 import time
 
-torch.set_num_threads(4)
+torch.set_num_interop_threads(4)
 
 # Cargar el tokenizador y el modelo
 tokenizer = AutoTokenizer.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
@@ -28,7 +28,7 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
-                    generated_tokens = model.generate(**input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
+                    generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
         
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

@@ -5,6 +5,8 @@ import psutil
 import os
 import time
 
+print(torch.cuda.is_available())
+
 # Verificamos si hay una GPU disponible y, en caso afirmativo, la usamos. Si no, usamos la CPU.
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

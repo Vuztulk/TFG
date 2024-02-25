@@ -36,15 +36,15 @@ with torch.no_grad():
                 inputs = tokenizer.encode("summarize: " + input_text[0], return_tensors="pt", max_length=1024, truncation=True)
                 summary_ids = model.generate(inputs, max_length=100, min_length=30, num_beams=4, early_stopping=True)
 
+cpu_time = prof.key_averages().total_cpu_time
+cpu_time_seconds = cpu_time / 1_000_000
+cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
+print(f'Tiempo de CPU: {cpu_time_str} segundos')
+
 summary_text = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
 
 # Calcular el tiempo de CPU y total
 end_time = time.time()
 duration = end_time - start_time
-cpu_time = prof.key_averages().total_cpu_time
-cpu_time_seconds = cpu_time / 1_000_000
-cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
 duration_str = f'{duration:.4f}'.replace('.', ',')
-print(f'Tiempo de CPU: {cpu_time_str} segundos')
 print(f'Tiempo total: {duration_str} segundos')
-

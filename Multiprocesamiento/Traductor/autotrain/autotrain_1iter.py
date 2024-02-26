@@ -23,12 +23,13 @@ with torch.no_grad():
         with record_function("model_inference"):
             outputs = model.generate(input_ids, max_length=200, num_return_sequences=1)
 
+
 model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
-    if model_inference_event:
-        cpu_time = model_inference_event[0].cpu_time_total
-        cpu_time_seconds = cpu_time / 1_000_000
-        cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
-	print(f'Tiempo de CPU: {cpu_time_str} segundos')
+if model_inference_event:
+    cpu_time = model_inference_event[0].cpu_time_total
+    cpu_time_seconds = cpu_time / 1_000_000
+    cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
+    print(f'Tiempo de CPU: {cpu_time_str} segundos')
 
 output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 

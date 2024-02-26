@@ -36,7 +36,7 @@ with torch.no_grad():
                 attention_mask = torch.ones(input_ids.shape)
                 outputs = model.generate(input_ids, max_length=100, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
 
-cpu_time = prof.key_averages().total_cpu_time
+cpu_time = sum(event.cpu_time_total for event in prof.key_averages())
 cpu_time_seconds = cpu_time / 1_000_000
 cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
 print(f'Tiempo de CPU: {cpu_time_str} segundos')

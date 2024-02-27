@@ -3,8 +3,6 @@ from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 import time
 
-print(torch.cuda.is_available())
-
 # Verificamos si hay una GPU disponible y, en caso afirmativo, la usamos. Si no, usamos la CPU.
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

@@ -39,7 +39,8 @@ with open('resultados.txt', 'w') as f:
                     outputs = model(**encoded_input)
                     logits = outputs.logits
                     predicted_class = torch.argmax(logits).item()
-                    print(predicted_class)
+                    sentiment_classes = ['negative', 'positive']
+                    print(f'Predicted sentiment: {sentiment_classes[predicted_class]}')
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:

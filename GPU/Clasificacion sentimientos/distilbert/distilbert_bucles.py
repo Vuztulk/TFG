@@ -29,11 +29,12 @@ with open('resultados.txt', 'w') as f:
         encoded_input = encoded_input.to(device)
 
         # Inicializamos el perfilador de PyTorch
-        with torch.no_grad(), profile(activities=[ProfilerActivity.CUDA,ProfilerActivity.CPU], record_shapes=True) as prof:
-            with record_function("model_inference"):
-                outputs = model(**encoded_input)
-                logits = outputs.logits
-                predicted_class = torch.argmax(logits).item()
+        with torch.no_grad():
+            with profile(activities=[ProfilerActivity.CUDA], record_shapes=True) as prof:
+                with record_function("model_inference"):
+                    outputs = model(**encoded_input)
+                    logits = outputs.logits
+                    predicted_class = torch.argmax(logits).item()
 
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

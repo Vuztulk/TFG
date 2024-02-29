@@ -56,7 +56,9 @@ with open('resultados.txt', 'w') as f:
         power_in_watts = power / 1000.0
         #f.write(f'Power consumption: {power_in_watts} W\n')
         print(f'Power consumption: {power_in_watts} W\n')   
+        
         output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        print(f'Output Text: {output_text} W\n') 
         
         end_time = time.time()
         duration = end_time - start_time

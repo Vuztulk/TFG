@@ -21,7 +21,7 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
         # Leer el texto de entrada desde un archivo .txt
-        with open('/home/tfg1/TFG/Problemas/Predictor de Texto/input.txt', 'r') as file:
+        with open('./input.txt', 'r') as file:
             input_text = file.read().replace('\n', '')
 
         # Codificar entrada
@@ -30,7 +30,7 @@ with open('resultados.txt', 'w') as f:
 
         # Realizar la inferencia del modelo con el perfilador
         with torch.no_grad():
-            with profile(activities=[ProfilerActivity.CUDA], record_shapes=True) as prof:
+            with profile(activities=[ProfilerActivity.CUDA,ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
                     outputs = model.generate(input_ids, max_length=100, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
 

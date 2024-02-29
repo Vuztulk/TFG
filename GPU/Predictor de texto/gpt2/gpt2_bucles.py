@@ -2,16 +2,9 @@ import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import GPT2Tokenizer, GPT2LMHeadModel
 import time
-import pynvml
-
-# Inicializar NVML
-pynvml.nvmlInit()
 
 # Verificamos si hay una GPU disponible y, en caso afirmativo, la usamos. Si no, usamos la CPU.
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-# Obtener el handle de la primera GPU
-handle = pynvml.nvmlDeviceGetHandleByIndex(0)
 
 # Cargar el tokenizador y el modelo
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
@@ -49,16 +42,8 @@ with open('resultados.txt', 'w') as f:
             gpu_time_str = f'{gpu_time_seconds:.4f}'.replace('.', ',')
             f.write(f'{gpu_time_str}\n')
             
-        # Obtener el consumo de energía en miliwatts
-        power = pynvml.nvmlDeviceGetPowerUsage(handle)
-
-        # Convertir a vatios
-        power_in_watts = power / 1000.0
-        #f.write(f'Power consumption: {power_in_watts} W\n')
-        print(f'Power consumption: {power_in_watts} W\n')   
-        
         output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        print(f'Output Text: {output_text} W\n') 
+        print(f'Output text: {output_text}')
         
         end_time = time.time()
         duration = end_time - start_time

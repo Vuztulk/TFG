@@ -54,8 +54,8 @@ with open('resultados.txt', 'w') as f:
 
         # Convertir a vatios
         power_in_watts = power / 1000.0
-        f.write(f'Power consumption: {power_in_watts} W\n')
-            
+        #f.write(f'Power consumption: {power_in_watts} W\n')
+        print(f'Power consumption: {power_in_watts} W\n')   
         output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
         
         end_time = time.time()

@@ -1,8 +1,6 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-import psutil
-import os
 import time
 
 torch.set_num_interop_threads(4)
@@ -43,10 +41,10 @@ with open('resultados.txt', 'w') as f:
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:
-            cpu_time = model_inference_event[0].cpu_time_total
-            cpu_time_seconds = cpu_time / 1_000_000
-            cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
-            f.write(f'{cpu_time_str}\n')
+            gpu_time = model_inference_event[0].cuda_time_total
+            gpu_time_seconds = gpu_time / 1_000_000
+            gpu_time_str = f'{gpu_time_seconds:.4f}'.replace('.', ',')
+            f.write(f'{gpu_time_str}\n')
 
         end_time = time.time()
         duration = end_time - start_time

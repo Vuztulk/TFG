@@ -2,8 +2,6 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-import psutil
-import os
 import time
 
 class TextDataset(Dataset):
@@ -45,7 +43,7 @@ with open('resultados.txt', 'w') as f:
                         encoded_input = tokenizer(input_text[0], return_tensors='pt')
 
                         # Movemos los datos de entrada a la GPU
-                        encoded_input = encoded_input.to(device)
+                        encoded_input = {key: tensor.to(device) for key, tensor in encoded_input.items()}
 
                         outputs = model(**encoded_input)
                         logits = outputs.logits
@@ -54,10 +52,10 @@ with open('resultados.txt', 'w') as f:
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:
-            cpu_time = model_inference_event[0].cpu_time_total
-            cpu_time_seconds = cpu_time / 1_000_000
-            cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
-            f.write(f'{cpu_time_str}\n')
+            gpu_time = model_inference_event[0].cuda_time_total
+            gpu_time_seconds = gpu_time / 1_000_000
+            gpu_time_str = f'{gpu_time_seconds:.4f}'.replace('.', ',')
+            f.write(f'{gpu_time_str}\n')
 
         end_time = time.time()
         duration = end_time - start_time

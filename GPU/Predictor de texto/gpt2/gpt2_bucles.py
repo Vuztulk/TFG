@@ -43,7 +43,6 @@ with open('resultados.txt', 'w') as f:
             f.write(f'{gpu_time_str}\n')
             
         output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        print(f'Output text: {output_text}')
         
         end_time = time.time()
         duration = end_time - start_time

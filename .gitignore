@@ -1,2 +1,3 @@
 # .gitignore
 .envTFG/
+.venv/

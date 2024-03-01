@@ -1,7 +1,6 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import MarianMTModel, MarianTokenizer
-import psutil
 import os
 import time
 
@@ -12,8 +11,11 @@ def model_inference(input_text):
     # Cargar el tokenizador y el modelo
     tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-es-en')
     model = MarianMTModel.from_pretrained('Helsinki-NLP/opus-mt-es-en')
+    # Mover el modelo a la GPU si está disponible
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    model = model.to(device)
     # Codificar entrada
-    encoded_input = tokenizer.encode(input_text, return_tensors='pt')
+    encoded_input = tokenizer.encode(input_text, return_tensors='pt').to(device)
     with torch.no_grad():
         outputs = model.generate(encoded_input, max_length=200, num_return_sequences=1)
     # Decodificar la salida
@@ -31,17 +33,31 @@ with open('resultados.txt', 'w') as f:
             input_text = file.read().replace('\n', '')
 
         # Realizar la inferencia del modelo con el perfilador
-        with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
+        with profile(activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
                 output_text = model_inference(input_text)
 
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:
-            cpu_time = model_inference_event[0].cpu_time_total
-            cpu_time_seconds = cpu_time / 1_000_000
-            cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
-            f.write(f'{cpu_time_str}\n')
+            gpu_time = model_inference_event[0].cuda_time_total
+            gpu_time_seconds = gpu_time / 1_000_000
+            gpu_time_str = f'{gpu_time_seconds:.4f}'.replace('.', ',')
+            f.write(f'{gpu_time_str}\n')
+
+        # Imprimimos la clase predicha
+        #f.write(f'Texto de entrada: {input_text}\n')
+        #f.write(f'Texto de salida: {output_text}\n')
+
+        # Métricas adicionales
+        #pid = os.getpid()
+        #py = psutil.Process(pid)
+
+        #memory_use = py.memory_info()[0]/2.**30  # memory use in GB
+        #f.write(f'Uso de memoria: {memory_use} GB\n')
+
+        #cpu_use = psutil.cpu_percent(interval=None)
+        #f.write(f'Uso de CPU: {cpu_use} %\n')
 
         end_time = time.time()
         duration = end_time - start_time

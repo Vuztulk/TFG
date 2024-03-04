@@ -2,6 +2,7 @@ import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 def clasificacion_sentimiento(input_text):
+    
     tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
     model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
     
@@ -20,4 +21,4 @@ def clasificacion_sentimiento(input_text):
     sentiment_classes = ['negative', 'positive']
     
     # Devuelve el texto de entrada y la clase predicha
-    return f'Input Text: {input_text}\nPredicted sentiment: {sentiment_classes[predicted_class]}'
+    return f'Input Text: {input_text}\n Predicted sentiment: {sentiment_classes[predicted_class]}'

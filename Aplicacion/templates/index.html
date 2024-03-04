@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask Input</title>
+    <title>Text Processing</title>
 </head>
 <body>
-    <h1>Enviar texto a Flask</h1>
+    <h1>Text Processing</h1>
     <form action="/enviar" method="post">
-        <label for="texto">Introduce tu texto:</label><br>
-        <input type="text" id="texto" name="texto"><br>
-        <input type="submit" value="Enviar">
+        <label for="texto1">Texto 1:</label><br>
+        <input type="text" id="texto1" name="texto1"><br>
+        <input type="submit" name="submit_clasificacion" value="Clasificar Texto">
+        <input type="submit" name="submit_traduccion" value="Traducir Texto">
     </form>
 </body>
 </html>

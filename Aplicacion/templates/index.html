@@ -1,17 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Processing</title>
-</head>
-<body>
-    <h1>Text Processing</h1>
-    <form action="/enviar" method="post">
+{% extends 'layout.html' %} <!-- con esto extendemos de layout y todo lo que tenga layout estará en el index-->
+
+{% block body %} <!-- indicamos que empieza el body -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand text-primary" href="#">Text Processing</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active text-light" aria-current="page" href="#">Inicio</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Funcionalidades</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Traductor</a></li>
+                    <li><a class="dropdown-item" href="#">Predictor sentimietos</a></li>
+                    <li><a class="dropdown-item" href="#">Resumen de texto</a></li>
+                    <li><a class="dropdown-item" href="#">Predictor de texto</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" aria-current="page" href="#">Info</a>
+            </li>
+            <!--      Esto es para desabiltar un item del menu de navegación    -->
+            <!--<li class="nav-item"> 
+                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>-->
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+<form action="/enviar" method="post">
+    <div class = "mb-4">
         <label for="texto">Texto:</label><br>
         <input type="text" id="texto" name="texto"><br>
-        <input type="submit" name="submit_clasificacion" value="Clasificar Texto">
-        <input type="submit" name="submit_traduccion" value="Traducir Texto">
-    </form>
-</body>
-</html>
+    </div>
+    <div>
+        <input type="submit" class="btn btn-dark" name="submit_clasificacion" value="Clasificar Texto">
+        <input type="submit" class="btn btn-dark" name="submit_traduccion" value="Traducir Texto">
+    </div>  
+</form>
+
+
+{% endblock %}

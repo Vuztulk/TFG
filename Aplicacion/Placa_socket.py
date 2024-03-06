@@ -1,6 +1,6 @@
 import socket
 s = socket.socket()
-s.bind(("192.168.88.219", 2223))
+s.bind(("192.168.88.219", 22))
 s.listen(10)
 
 while True:

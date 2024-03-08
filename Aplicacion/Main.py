@@ -8,8 +8,9 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/enviar', methods=['POST'])
-def recibir_texto():
+@app.route('/traductor', methods=['GET', 'POST'])
+def traductor():
+    resultado = None
     if request.method == 'POST':
         texto = request.form['texto']
         if 'submit_clasificacion' in request.form:
@@ -18,7 +19,9 @@ def recibir_texto():
             resultado = traduccion_texto(texto)
         else:
             resultado = 'Acción desconocida'
-        return resultado
+    return render_template('traductor.html', resultado=resultado)
+
   
 if __name__ == '__main__':
     app.run(debug=True)
+

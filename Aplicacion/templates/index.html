@@ -1,53 +1,102 @@
-{% extends 'layout.html' %} <!-- con esto extendemos de layout y todo lo que tenga layout estará en el index-->
+<!-- Con esto extendemos de layout y todo lo que tenga layout estará en el index-->
+{% extends 'layout.html' %} 
 
-{% block body %} <!-- indicamos que empieza el body -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand text-primary" href="#">Text Processing</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link active text-light" aria-current="page" href="#">Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Funcionalidades</a>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Traductor</a></li>
-                    <li><a class="dropdown-item" href="#">Predictor sentimietos</a></li>
-                    <li><a class="dropdown-item" href="#">Resumen de texto</a></li>
-                    <li><a class="dropdown-item" href="#">Predictor de texto</a></li>
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" aria-current="page" href="#">Info</a>
-            </li>
-            <!--      Esto es para desabiltar un item del menu de navegación    -->
-            <!--<li class="nav-item"> 
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>-->
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </form>
+<!-- indicamos que empieza el body -->
+{% block body %} 
+
+<!-- Filas con las dos primeras funcionalidades de la página principal -->
+<div class="row my-5 justify-content-center">
+    <div class="col-sm-5 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Traducción</h5>
+          <p class="card-text">Traduce el texto de español a inglés que desees.</p>
+
+          <!-- Botón especifico para que salga el modal y preguntar, el modal está configurado en sí más abajo -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTraductor">
+            Traductor
+          </button>
+
         </div>
+      </div>
     </div>
-</nav>
-
-
-<form action="/enviar" method="post">
-    <div class = "mb-4">
-        <label for="texto">Texto:</label><br>
-        <input type="text" id="texto" name="texto"><br>
+    <div class="col-sm-5">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Clasificación de sentimietos</h5>
+          <p class="card-text">Te predecirá si tus sentimientos son positivos o negativos</p>
+          <a href="#" class="btn btn-primary">Sentimientos</a>
+        </div>
+      </div>
     </div>
-    <div>
-        <input type="submit" class="btn btn-dark" name="submit_clasificacion" value="Clasificar Texto">
-        <input type="submit" class="btn btn-dark" name="submit_traduccion" value="Traducir Texto">
-    </div>  
-</form>
+</div>
 
+<!-- Título con typing -->
+<div class="container text-center">
+    <h3 class="d-inline">¿<h3 id="typing-title" class="d-inline"></h3></h3>
+</div>
+  
+<!-- Filas con las dos segundas funcionalidades de la página principal -->
+<div class="row my-5 justify-content-center">
+    <div class="col-sm-5 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Resumir texto</h5>
+          <p class="card-text">Introduce un texto para resumirlo en menos palabras</p>
+          <a href="#" class="btn btn-primary">Rusumen</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-5">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Generar texto</h5>
+          <p class="card-text">Te ayuda a seguir un texto si no tienes ideas</p>
+          <a href="#" class="btn btn-primary">Generar</a>
+        </div>
+      </div>
+    </div>
+</div>
 
-{% endblock %}
+<!-- Modal para elegir con qué opción en primer lugar quieres probar los problemas -->
+<div class="modal fade" id="modalTraductor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Traductor</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Para traducir tu texto deseado puedes realizarlo de diferentes formas evaluando el rendimiento de cada una de las opciones,
+          aprovechando las cualidades de cada una, pudiendo elegir entre una Raspberry Pi, una placa Orin Nvidia con CPU, esta misma pero con el uso de GPU o 
+          directamente localmente en tu PC.<br> <br> 
+          Esto no será definitivo y podrás cambiar la forma de ejecución posteriormente.
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-primary" href="#">Raspberry</a>
+          <a href="#" class="btn btn-primary" href="#">Orin-CPU</a>
+          <a href="#" class="btn btn-primary" href="#">Orin-GPU</a>
+          <a href="/traductor" class="btn btn-primary">Local</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- TYPE.js para el typing del titulo -->
+<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+<!-- Creación de la variable para darle opciones al typing -->
+<script>
+    var typed = new Typed('#typing-title', {
+        strings: ['En que puedo ayudarte?', 'Quieres traducir algo?', 'Resumir un texto?', 'O ampliarlo y calificar los sentimientos?'],
+        typeSpeed: 75,
+        showCursor: false,
+        loop: true,
+        backDelay: 1500,
+        loopCount: 2,
+    });
+</script>
+
+<!--Aquí indicamos que termian el body-->
+{% endblock %} 
+

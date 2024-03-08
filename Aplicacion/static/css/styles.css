@@ -1,0 +1,7 @@
+/*Clase de los botones del modo oscuro, para hacerlos más pequeños y que se ajuste al color correspondiente*/
+.bi {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    fill: currentColor;
+}

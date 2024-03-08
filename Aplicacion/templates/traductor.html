@@ -1,0 +1,76 @@
+<!-- Con esto extendemos de layout y todo lo que tenga layout estará en el index-->
+{% extends 'layout.html' %} 
+
+<!-- indicamos que empieza el body -->
+{% block body %} 
+
+<!-- Navegación para ir desde un dispositivo a otro y en el cuerpo tenemos la funcionalidad del modelo,
+esto más adelante se puede hacer una plantilla y que luego hereden de esto para que tengan lo mismo y no repetir tanto
+código-->
+<div class="card mx-5 my-5">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" href="#">Local</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Orin-CPU</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Orin-GPU</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Raspberry</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+
+        <!--Alerta de información sobre el modo de uso de cada problema-->
+        <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+            <div>
+              <strong>MODO DE USO:</strong>
+              <p>Introduce el input que quieras traducir. Para volver a realizar una petición solamente vuelve a escribir
+                en el apartado del input y envíalo. Si quieres ejecutar dicha petición desde otro dispositivo muévete por las pestañas.
+              </p>
+            </div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Formularios para poner el input del modelo y que nos devuelva el output-->
+        <form action="/traductor" method="post">
+            <div class = "mb-4">
+                <label for="texto">Texto:</label><br>
+                <textarea type="text" id="texto" name="texto" class="form-control" maxlength="180" aria-describedby="inputInfo"> </textarea>
+                <div id="inputInfo" class="form-text">Escribe cuanto quieras pero el texto está limitado a 180 caracteres para que la funcionalidad en todos los 
+                    dispositivos disponibles no se vea afectada.
+                </div>
+
+                {% if resultado %}
+                <div class="row align-items-center mt-3">
+                    <div class="col-auto">
+                        <svg class="bi my-1 theme-icon-active text-primary" style="font-size: 2rem;"><use href="#bi-robot"></use></svg>
+                    </div>
+                    <div class="col">
+                        <p>{{ resultado }}</p>
+                    </div>
+                </div>                    
+                {% endif %}
+
+            </div>
+            <div>
+                <!-- Esto es el botón para los sentimientos
+                    <input type="submit" class="btn btn-primary" name="submit_clasificacion" value="Clasificar Texto">
+                -->
+                <button type="submit" class="btn btn-link btn-lg float-end" name="submit_traduccion">
+                    <svg class="bi my-1 theme-icon-active"><use href="#bi-send"></use></svg> 
+                </button>
+            </div>  
+        </form>
+
+    </div>
+</div>
+
+<!--Aquí indicamos que termian el body-->
+{% endblock %} 

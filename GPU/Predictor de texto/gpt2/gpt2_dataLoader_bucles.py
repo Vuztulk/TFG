@@ -27,7 +27,7 @@ model.config.pad_token_id = model.config.eos_token_id
 model = model.to(device)
 
 # Crear un DataLoader con paralelización a nivel de datos
-dataset = TextDataset('/home/tfg1/TFG/Problemas/Predictor de Texto/input.txt')
+dataset = TextDataset('./input.txt')
 dataloader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=4)
 
 # Abrir el archivo de resultados

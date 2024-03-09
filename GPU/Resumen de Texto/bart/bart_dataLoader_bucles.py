@@ -25,7 +25,7 @@ model = BartForConditionalGeneration.from_pretrained("facebook/bart-large-cnn")
 model = model.to(device)
 
 # Crear un DataLoader con paralelización a nivel de datos
-dataset = TextDataset('/home/tfg1/TFG/Problemas/Resumen de texto/input.txt')
+dataset = TextDataset('./input.txt')
 dataloader = DataLoader(dataset, batch_size=1, shuffle=False, num_workers=4)
 
 # Abrir el archivo de resultados

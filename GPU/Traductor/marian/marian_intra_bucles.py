@@ -29,7 +29,7 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
         # Leer el texto de entrada desde un archivo .txt
-        with open('/home/tfg1/TFG/Problemas/Traductor/input.txt', 'r') as file:
+        with open('./input.txt', 'r') as file:
             input_text = file.read().replace('\n', '')
 
         # Realizar la inferencia del modelo con el perfilador

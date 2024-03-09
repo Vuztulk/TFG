@@ -34,7 +34,7 @@ with open('resultados.txt', 'w') as f:
 
         # Inicializamos el perfilador de PyTorch
         with torch.no_grad():
-            with profile(activities=[ProfilerActivity.CUDA], record_shapes=True) as prof:
+            with profile(activities=[ProfilerActivity.CUDA,ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
                     outputs = model(**encoded_input)
                     logits = outputs.logits

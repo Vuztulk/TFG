@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 def recibir_texto():
     if request.method == 'POST':
-        texto = request.form['texto1']
+        texto = request.form['texto']
         if 'submit_clasificacion' in request.form:
             resultado = clasificacion_sentimiento(texto)
         elif 'submit_traduccion' in request.form:

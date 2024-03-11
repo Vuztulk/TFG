@@ -5,18 +5,21 @@ from Modelos.Traduccion import traduccion_texto
 
 app = Flask(__name__)
 
-@app.route('/procesar_texto', methods=['POST'])
+@app.route('/', methods=['POST'])
 
 def recibir_texto():
     if request.method == 'POST':
         texto = request.form['texto']
-        if 'submit_clasificacion' in request.form:
+        placa = request.form['placa']
+        print(placa)
+        accion = request.form.get('accion')
+        if accion == 'clasificacion':
             resultado = clasificacion_sentimiento(texto)
-        elif 'submit_traduccion' in request.form:
+        elif accion == 'traduccion':
             resultado = traduccion_texto(texto)
-        elif 'submit_predictor' in request.form:
+        elif accion == 'predictor':
             resultado = clasificacion_sentimiento(texto)
-        elif 'submit_resumen' in request.form:
+        elif accion == 'resumen':
             resultado = traduccion_texto(texto)
         else:
             resultado = 'Acción desconocida'

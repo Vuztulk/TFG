@@ -11,8 +11,8 @@ def index():
 def traductor():
     if request.method == 'POST':
         texto = request.form.get('texto')
-        tab = request.form.get('tab') # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
-        response = requests.post('http://127.0.0.1:6000/process', data={'text': texto})
+        placa = request.form.get('placa')
+        response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'placa': placa})
         processed_text = response.text
         return render_template('traductor.html', resultado=processed_text)
     return render_template('traductor.html')
@@ -21,8 +21,8 @@ def traductor():
 def sentimientos():
     if request.method == 'POST':
         texto = request.form.get('texto')
-        tab = request.form.get('tab') # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
-        response = requests.post('http://127.0.0.1:6000/process', data={'text': texto})
+        placa = request.form.get('placa')
+        response = requests.post('http://127.0.0.1:6000', data={'accion': 'clasificacion', 'texto': texto, 'placa': placa})
         processed_text = response.text
         return render_template('clasificacion_sentimientos.html', resultado=processed_text)
     return render_template('clasificacion_sentimientos.html')
@@ -31,8 +31,8 @@ def sentimientos():
 def predictor():
     if request.method == 'POST':
         texto = request.form.get('texto')
-        tab = request.form.get('tab') # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
-        response = requests.post('http://127.0.0.1:6000/process', data={'text': texto})
+        placa = request.form.get('placa')
+        response = requests.post('http://127.0.0.1:6000', data={'accion': 'predictor', 'texto': texto, 'placa': placa})
         processed_text = response.text
         return render_template('predictor_texto.html', resultado=processed_text)
     return render_template('predictor_texto.html')
@@ -41,12 +41,11 @@ def predictor():
 def resumen():
     if request.method == 'POST':
         texto = request.form.get('texto')
-        tab = request.form.get('tab') # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
-        response = requests.post('http://127.0.0.1:6000/process', data={'text': texto})
+        placa = request.form.get('placa')
+        response = requests.post('http://127.0.0.1:6000', data={'accion': 'resumen', 'texto': texto, 'placa': placa})
         processed_text = response.text
         return render_template('resumen_texto.html', resultado=processed_text)
     return render_template('resumen_texto.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
+    app.run()

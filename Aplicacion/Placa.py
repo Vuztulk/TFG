@@ -1,6 +1,6 @@
 from flask import Flask, request
-from Modelos.Clasificacion_Sentimientos import distilbert, roberta, sbcbi
-from Modelos.Traductor import trad_marian, trad_cartenisus, autotrain
+from Aplicacion.Modelos.Clasificacion_Sentimientos.distilbert import sent_distilbert
+from Aplicacion.Modelos.Traductor.marian import trad_marian, trad_cartenisus, autotrain
 
 app = Flask(__name__)
 
@@ -13,13 +13,13 @@ def recibir_texto():
 
         accion = request.form.get('accion')
         if accion == 'clasificacion':
-            resultado = distilbert(texto)
+            resultado, t_cpu, t_total = sent_distilbert(texto)
         elif accion == 'traduccion':
-            resultado = trad_marian(texto)
+            resultado, t_cpu, t_total = trad_marian(texto)
         #elif accion == 'predictor':
-            #resultado = clasificacion_sentimiento(texto)
+            #resultado, t_cpu, t_total = clasificacion_sentimiento(texto)
         #elif accion == 'resumen':
-            #resultado = traduccion_texto(texto)
+            #resultado, t_cpu, t_total = traduccion_texto(texto)
         else:
             resultado = 'Acción desconocida'
         return resultado

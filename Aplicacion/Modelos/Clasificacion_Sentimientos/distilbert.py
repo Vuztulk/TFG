@@ -3,7 +3,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from torch.profiler import profile, record_function, ProfilerActivity
 import time
 
-def distilbert(input_text):
+def sent_distilbert(input_text):
     
     start_time = time.time()
     

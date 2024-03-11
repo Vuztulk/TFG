@@ -63,6 +63,8 @@ código-->
                 <!-- Esto es el botón para los sentimientos
                     <input type="submit" class="btn btn-primary" name="submit_clasificacion" value="Clasificar Texto">
                 -->
+                <input type="hidden" id="tab" name="tab" value="Local">
+
                 <button type="submit" class="btn btn-link btn-lg float-end" name="submit_traduccion">
                     <svg class="bi my-1 theme-icon-active"><use href="#bi-send"></use></svg> 
                 </button>
@@ -71,6 +73,15 @@ código-->
 
     </div>
 </div>
+
+<script>
+    // Cambia el valor del campo oculto cuando se cambia de pestaña
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            document.getElementById('tab').value = this.innerText;
+        });
+    });
+</script>
 
 <!--Aquí indicamos que termian el body-->
 {% endblock %} 

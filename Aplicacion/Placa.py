@@ -14,12 +14,16 @@ def recibir_texto():
             resultado = clasificacion_sentimiento(texto)
         elif 'submit_traduccion' in request.form:
             resultado = traduccion_texto(texto)
+        elif 'submit_predictor' in request.form:
+            resultado = clasificacion_sentimiento(texto)
+        elif 'submit_resumen' in request.form:
+            resultado = traduccion_texto(texto)
         else:
             resultado = 'Acción desconocida'
         return resultado
   
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='127.0.0.1', port=6000)
 
 
 

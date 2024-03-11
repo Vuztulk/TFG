@@ -4,9 +4,9 @@ from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import time
 
 def trad_cartenisus(input_text):
+    
     start_time = time.time()
 
-    # Cargar el tokenizador y el modelo
     tokenizer = AutoTokenizer.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
     model = AutoModelForSeq2SeqLM.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
 

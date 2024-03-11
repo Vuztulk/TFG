@@ -11,7 +11,7 @@ def index():
 def traductor():
     if request.method == 'POST':
         texto = request.form.get('texto')
-        tab = request.form.get('tab')  # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
+        tab = request.form.get('tab') # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
         response = requests.post('http://127.0.0.1:6000/process', data={'text': texto})
         processed_text = response.text
         return render_template('traductor.html', resultado=processed_text)
@@ -21,7 +21,7 @@ def traductor():
 def sentimientos():
     if request.method == 'POST':
         texto = request.form.get('texto')
-        tab = request.form.get('tab')  # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
+        tab = request.form.get('tab') # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
         response = requests.post('http://127.0.0.1:6000/process', data={'text': texto})
         processed_text = response.text
         return render_template('clasificacion_sentimientos.html', resultado=processed_text)
@@ -31,7 +31,7 @@ def sentimientos():
 def predictor():
     if request.method == 'POST':
         texto = request.form.get('texto')
-        tab = request.form.get('tab')  # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
+        tab = request.form.get('tab') # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
         response = requests.post('http://127.0.0.1:6000/process', data={'text': texto})
         processed_text = response.text
         return render_template('predictor_texto.html', resultado=processed_text)
@@ -41,7 +41,7 @@ def predictor():
 def resumen():
     if request.method == 'POST':
         texto = request.form.get('texto')
-        tab = request.form.get('tab')  # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
+        tab = request.form.get('tab') # Obtenemos si estamos en local, orin-cpu, orin-gpu o raspi
         response = requests.post('http://127.0.0.1:6000/process', data={'text': texto})
         processed_text = response.text
         return render_template('resumen_texto.html', resultado=processed_text)

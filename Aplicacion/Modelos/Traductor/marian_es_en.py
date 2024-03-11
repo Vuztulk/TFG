@@ -1,7 +1,7 @@
 import torch
 from transformers import MarianMTModel, MarianTokenizer
 
-def traduccion_texto(input_text):
+def marian(input_text):
 
     tokenizer = MarianTokenizer.from_pretrained('Helsinki-NLP/opus-mt-es-en')
     model = MarianMTModel.from_pretrained('Helsinki-NLP/opus-mt-es-en')

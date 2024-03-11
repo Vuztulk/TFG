@@ -1,7 +1,7 @@
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-def clasificacion_sentimiento(input_text):
+def distilbert(input_text):
     
     tokenizer = AutoTokenizer.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')
     model = AutoModelForSequenceClassification.from_pretrained('distilbert-base-uncased-finetuned-sst-2-english')

@@ -1,7 +1,11 @@
 
 from flask import Flask, request
-from Modelos.Clasificacion_Sentimientos import clasificacion_sentimiento
-from Modelos.Traduccion import traduccion_texto
+from Modelos.Clasificacion_Sentimientos.distilbert import distilbert
+from Modelos.Clasificacion_Sentimientos.roBERTa import 
+from Modelos.Clasificacion_Sentimientos.sbcBI import distilbert
+from Modelos.Traductor.marian_es_en import marian
+from Modelos.Traductor. import marian
+from Modelos.Traductor.marian_es_en import marian
 
 app = Flask(__name__)
 
@@ -11,12 +15,12 @@ def recibir_texto():
     if request.method == 'POST':
         texto = request.form['texto']
         placa = request.form['placa']
-        print(placa)
+
         accion = request.form.get('accion')
         if accion == 'clasificacion':
-            resultado = clasificacion_sentimiento(texto)
+            resultado = distilbert(texto)
         elif accion == 'traduccion':
-            resultado = traduccion_texto(texto)
+            resultado = marian(texto)
         elif accion == 'predictor':
             resultado = clasificacion_sentimiento(texto)
         elif accion == 'resumen':

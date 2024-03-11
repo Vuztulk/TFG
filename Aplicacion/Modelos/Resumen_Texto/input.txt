@@ -1,0 +1,7 @@
+The history of artificial intelligence (AI) dates back to antiquity - with myths, stories, and rumors of artificial 
+beings endowed with intelligence or consciousness by master craftsmen. 
+The field of AI research was founded at a conference on the campus of Dartmouth College in the summer of 1956. 
+Those who attended would become the leaders of AI research for decades. 
+Many of them predicted that a machine as intelligent as a human being would exist in no more than a generation and they 
+were given millions of dollars to make this vision come true.
+

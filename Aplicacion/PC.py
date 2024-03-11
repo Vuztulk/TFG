@@ -12,7 +12,7 @@ def traductor():
     if request.method == 'POST':
         texto = request.form.get('texto')
         placa = request.form.get('placa')
-        response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'placa': placa})
+        response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'placa': placa}) #Quedaria por añadir el modelo con el cual se quiere procesar
         processed_text = response.text
         return render_template('traductor.html', resultado=processed_text)
     return render_template('traductor.html')

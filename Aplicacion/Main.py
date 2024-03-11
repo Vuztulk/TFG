@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from Modelos.Clasificacion_Sentimientos import distilbert
-from Aplicacion.Modelos.Traductor.marian_es_en import traduccion_texto
+from Aplicacion.Modelos.Traductor.marian import traduccion_texto
 
 app = Flask(__name__)
 

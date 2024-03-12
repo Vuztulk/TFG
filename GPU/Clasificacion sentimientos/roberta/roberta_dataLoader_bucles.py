@@ -44,7 +44,8 @@ with open('resultados.txt', 'w') as f:
                     for input_text in dataloader:
                         input_text = torch.tensor([tokenizer.encode(text) for text in input_text])
                         input_text = input_text.to(device)
-                        encoded_input = tokenizer(input_text[0], return_tensors='pt')
+                        input_text_str = [tokenizer.decode(ids) for ids in input_text]
+                        encoded_input = tokenizer(input_text_str[0], return_tensors='pt')
                         outputs = model(**encoded_input)
                         logits = outputs.logits
                         predicted_class = torch.argmax(logits).item()

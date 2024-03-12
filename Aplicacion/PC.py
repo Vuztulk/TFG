@@ -3,6 +3,21 @@ import requests
 
 app = Flask(__name__)
 
+def procesar_solicitud(placa, texto, modelo):
+    if placa == 'local':
+        url = 'http://127.0.0.1:6000'
+    elif placa == 'rasperri':
+        url = 'URL_para_rasperri'
+    elif placa == 'orin-cpu':
+        url = 'URL_para_orin-cpu'
+    elif placa == 'orin-gpu':
+        url = 'URL_para_orin-gpu'
+    else:
+        return "Placa no reconocida"
+    
+    response = requests.post(url, data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
+    return response.text
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
@@ -13,49 +28,45 @@ def traductor():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        
-        if placa == 'local':
-            response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
-        elif placa == 'rasperri':
-            response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
-        elif placa == 'orin-cpu':
-            response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
-        elif placa == 'orin-gpu':
-            response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
-        else:
-            return "Placa no reconocida"
-
-        return render_template('traductor.html', resultado=response.text)
+        resultado = procesar_solicitud(placa, texto, modelo)
+        return render_template('traductor.html', resultado=resultado)
+    
     return render_template('traductor.html')
 
 @app.route('/clasificacion_sentimientos', methods=['GET', 'POST'])
-def sentimientos():
+def clasificacion_sentimientos():
     if request.method == 'POST':
         texto = request.form.get('texto')
         placa = request.form.get('placa')
-        response = requests.post('http://127.0.0.1:6000', data={'accion': 'clasificacion', 'texto': texto, 'placa': placa})
-        processed_text = response.text
-        return render_template('clasificacion_sentimientos.html', resultado=processed_text)
+        modelo = request.form.get('modelo')
+        
+        resultado = procesar_solicitud(placa, texto, modelo)
+        return render_template('clasificacion_sentimientos.html', resultado=resultado)
+    
     return render_template('clasificacion_sentimientos.html')
 
 @app.route('/predictor_texto', methods=['GET', 'POST'])
-def predictor():
+def predictor_texto():
     if request.method == 'POST':
         texto = request.form.get('texto')
         placa = request.form.get('placa')
-        response = requests.post('http://127.0.0.1:6000', data={'accion': 'predictor', 'texto': texto, 'placa': placa})
-        processed_text = response.text
-        return render_template('predictor_texto.html', resultado=processed_text)
+        modelo = request.form.get('modelo')
+        
+        resultado = procesar_solicitud(placa, texto, modelo)
+        return render_template('predictor_texto.html', resultado=resultado)
+    
     return render_template('predictor_texto.html')
 
 @app.route('/resumen_texto', methods=['GET', 'POST'])
-def resumen():
+def resumen_texto():
     if request.method == 'POST':
         texto = request.form.get('texto')
         placa = request.form.get('placa')
-        response = requests.post('http://127.0.0.1:6000', data={'accion': 'resumen', 'texto': texto, 'placa': placa})
-        processed_text = response.text
-        return render_template('resumen_texto.html', resultado=processed_text)
+        modelo = request.form.get('modelo')
+        
+        resultado = procesar_solicitud(placa, texto, modelo)
+        return render_template('resumen_texto.html', resultado=resultado)
+    
     return render_template('resumen_texto.html')
 
 if __name__ == '__main__':

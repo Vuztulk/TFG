@@ -42,7 +42,7 @@ with open('resultados.txt', 'w') as f:
             with profile(activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
                     for input_text in dataloader:
-                        # Movemos los datos de entrada a la GPU si es necesario
+                        input_text = torch.tensor([tokenizer.encode(text) for text in input_text])
                         input_text = input_text.to(device)
                         encoded_input = tokenizer(input_text[0], return_tensors='pt')
                         outputs = model(**encoded_input)

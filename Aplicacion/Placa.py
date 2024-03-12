@@ -11,7 +11,7 @@ app = Flask(__name__)
 def recibir_texto():
     if request.method == 'POST':
         texto = request.form['texto']
-        placa = request.form['placa']
+        modelo = request.form['modelo']
 
         accion = request.form.get('accion')
         if accion == 'clasificacion':

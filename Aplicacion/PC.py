@@ -13,7 +13,18 @@ def traductor():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo}) #Quedaria por añadir el modelo con el cual se quiere procesar
+        
+        if placa == 'local':
+            response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
+        elif placa == 'rasperri':
+            response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
+        elif placa == 'orin-cpu':
+            response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
+        elif placa == 'orin-gpu':
+            response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
+        else:
+            return "Placa no reconocida"
+        
         processed_text = response.text
         return render_template('traductor.html', resultado=processed_text)
     return render_template('traductor.html')

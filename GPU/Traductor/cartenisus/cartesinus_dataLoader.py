@@ -30,7 +30,7 @@ model = model.to(device)
 
 # Crear el DataLoader
 dataset = TextDataset('./input.txt', tokenizer)
-dataloader = DataLoader(dataset, batch_size=16, shuffle=False)
+dataloader = DataLoader(dataset, shuffle=False)
 
 # Abrir el archivo de resultados
 with open('resultados.txt', 'w') as f:

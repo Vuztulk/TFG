@@ -1,6 +1,8 @@
 from flask import Flask, request
 from Modelos.Clasificacion_Sentimientos.distilbert import sent_distilbert
 from Modelos.Traductor.marian import trad_marian
+from Modelos.Traductor.cartesinus import trad_cartenisus
+from Modelos.Traductor.autotrain import trad_autotrain
 
 app = Flask(__name__)
 
@@ -15,7 +17,7 @@ def recibir_texto():
         if accion == 'clasificacion':
             resultado, t_cpu, t_total = sent_distilbert(texto)
         elif accion == 'traduccion':
-            resultado, t_cpu, t_total = trad_marian(texto)
+            resultado, t_cpu, t_total = trad_autotrain(texto)
         #elif accion == 'predictor':
             #resultado, t_cpu, t_total = clasificacion_sentimiento(texto)
         #elif accion == 'resumen':

@@ -11,7 +11,7 @@ def trad_autotrain(input_text):
     tokenizer = AutoTokenizer.from_pretrained("robertrengel/autotrain-traductor-en-es-2023-3608896666")
     model = AutoModelForSeq2SeqLM.from_pretrained("robertrengel/autotrain-traductor-en-es-2023-3608896666")
 
-    input_ids = tokenizer(input_text, return_tensors="pt")
+    input_ids = tokenizer(input_text, return_tensors="pt")["input_ids"]
 
     # Realizar la inferencia del modelo con el perfilador
     with torch.no_grad():

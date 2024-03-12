@@ -22,7 +22,7 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
         # Definimos una frase de entrada
-        with open('GPU/Clasificacion sentimientos/roberta/input.txt', 'r') as file:
+        with open('./input.txt', 'r') as file:
             input_text = file.read().strip()
 
         encoded_input = tokenizer(input_text, return_tensors='pt')

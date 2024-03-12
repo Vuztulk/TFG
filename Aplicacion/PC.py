@@ -24,9 +24,8 @@ def traductor():
             response = requests.post('http://127.0.0.1:6000', data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
         else:
             return "Placa no reconocida"
-        
-        processed_text = response.text
-        return render_template('traductor.html', resultado=processed_text)
+
+        return render_template('traductor.html', resultado=response.text)
     return render_template('traductor.html')
 
 @app.route('/clasificacion_sentimientos', methods=['GET', 'POST'])

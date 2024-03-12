@@ -41,7 +41,8 @@ with open('resultados.txt', 'w') as f:
                 with record_function("model_inference"):
                     for input_text in dataloader:
                         # Accedemos al primer elemento de la lista (los datos de entrada) y los movemos a la GPU si es necesario
-                        input_text = input_text[0].to(device)
+                        input_text = input_text[0]  # Acceder al primer elemento
+                        input_text = torch.tensor(input_text).to(device)  # Convertir a tensor y mover a la GPU
                         encoded_input = tokenizer(input_text, return_tensors='pt')
                         outputs = model(**encoded_input)
                         logits = outputs.logits

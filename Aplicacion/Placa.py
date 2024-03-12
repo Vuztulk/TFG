@@ -17,7 +17,7 @@ def recibir_texto():
         if accion == 'clasificacion':
             resultado, t_cpu, t_total = sent_distilbert(texto)
         elif accion == 'traduccion':
-            resultado, t_cpu, t_total = trad_autotrain(texto)
+            resultado, t_cpu, t_total = trad_marian(texto)
         #elif accion == 'predictor':
             #resultado, t_cpu, t_total = clasificacion_sentimiento(texto)
         #elif accion == 'resumen':

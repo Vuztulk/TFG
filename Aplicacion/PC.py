@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-def procesar_solicitud(placa, texto, modelo):
+def procesar_solicitud(accion, placa, texto, modelo):
     if placa == 'local':
         url = 'http://127.0.0.1:6000'
     elif placa == 'rasperri':
@@ -15,7 +15,7 @@ def procesar_solicitud(placa, texto, modelo):
     else:
         return "Placa no reconocida"
     
-    response = requests.post(url, data={'accion': 'traduccion', 'texto': texto, 'modelo': modelo})
+    response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo})
     return response.text
 
 @app.route('/', methods=['GET', 'POST'])
@@ -28,7 +28,7 @@ def traductor():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        resultado = procesar_solicitud(placa, texto, modelo)
+        resultado = procesar_solicitud('traduccion', placa, texto, modelo)
         return render_template('traductor.html', resultado=resultado)
     
     return render_template('traductor.html')
@@ -40,7 +40,7 @@ def clasificacion_sentimientos():
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
         
-        resultado = procesar_solicitud(placa, texto, modelo)
+        resultado = procesar_solicitud('clasificacion',placa, texto, modelo)
         return render_template('clasificacion_sentimientos.html', resultado=resultado)
     
     return render_template('clasificacion_sentimientos.html')
@@ -52,7 +52,7 @@ def predictor_texto():
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
         
-        resultado = procesar_solicitud(placa, texto, modelo)
+        resultado = procesar_solicitud('predictor',placa, texto, modelo)
         return render_template('predictor_texto.html', resultado=resultado)
     
     return render_template('predictor_texto.html')
@@ -64,7 +64,7 @@ def resumen_texto():
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
         
-        resultado = procesar_solicitud(placa, texto, modelo)
+        resultado = procesar_solicitud('resumen', placa, texto, modelo)
         return render_template('resumen_texto.html', resultado=resultado)
     
     return render_template('resumen_texto.html')

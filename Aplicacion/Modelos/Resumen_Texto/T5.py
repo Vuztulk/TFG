@@ -5,7 +5,8 @@ import psutil
 import os
 import time
 
-def res_t5(input_text):
+def res_t5_cpu(input_text):
+    
     start_time = time.time()
     
     tokenizer = T5Tokenizer.from_pretrained("t5-small")
@@ -30,3 +31,6 @@ def res_t5(input_text):
     duration = end_time - start_time
 
     return summary_text, cpu_time_str, duration
+
+def res_t5_gpu(input_text):
+    return 0

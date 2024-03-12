@@ -3,7 +3,7 @@ from transformers import MarianMTModel, MarianTokenizer
 from torch.profiler import profile, record_function, ProfilerActivity
 import time
 
-def trad_marian(input_text):
+def trad_marian_cpu(input_text):
     
     start_time = time.time()
 
@@ -29,3 +29,6 @@ def trad_marian(input_text):
     duration = end_time - start_time
     
     return output_text, cpu_time_str, duration
+
+def trad_marian_gpu(input_text):
+    return 0

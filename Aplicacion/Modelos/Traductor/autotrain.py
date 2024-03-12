@@ -3,7 +3,7 @@ from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import time
 
-def trad_autotrain(input_text):
+def trad_autotrain_cpu(input_text):
     
     start_time = time.time()
 
@@ -31,3 +31,6 @@ def trad_autotrain(input_text):
     duration = end_time - start_time
 
     return output_text, cpu_time_str, duration
+
+def trad_autotrain_gpu(input_text):
+    return 0

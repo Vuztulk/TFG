@@ -3,7 +3,7 @@ from transformers import BartForConditionalGeneration, BartTokenizer
 from torch.profiler import profile, record_function, ProfilerActivity
 import time
 
-def res_bart(input_text):
+def res_bart_cpu(input_text):
     
     start_time = time.time()
     
@@ -27,3 +27,6 @@ def res_bart(input_text):
     duration = end_time - start_time
 
     return tokenizer.decode(summary_ids[0], skip_special_tokens=True), cpu_time_str, duration
+
+def res_bart_gpu(input_text):
+    return 0

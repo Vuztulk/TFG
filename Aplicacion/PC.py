@@ -3,7 +3,8 @@ import requests
 
 app = Flask(__name__)
 
-def procesar_solicitud(accion, placa, texto, modelo):
+def procesar_solicitud(accion, placa, texto, modelo, procesador = 'cpu'):
+    
     if placa == 'local':
         url = 'http://127.0.0.1:6000'
     elif placa == 'rasperri':
@@ -12,10 +13,11 @@ def procesar_solicitud(accion, placa, texto, modelo):
         url = 'URL_para_orin-cpu'
     elif placa == 'orin-gpu':
         url = 'URL_para_orin-gpu'
+        procesador = 'gpu'
     else:
         return "Placa no reconocida"
     
-    return requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo}).json().values()
+    return requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'procesador': procesador}).json().values()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

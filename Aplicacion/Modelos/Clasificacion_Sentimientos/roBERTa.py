@@ -3,7 +3,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from torch.profiler import profile, record_function, ProfilerActivity
 import time
 
-def sent_roberta(input_text):
+def sent_roberta_cpu(input_text):
     
     start_time = time.time()
     
@@ -31,3 +31,6 @@ def sent_roberta(input_text):
     duration = end_time - start_time
 
     return sentiment_classes[predicted_class], cpu_time_str, duration
+
+def sent_roberta_gpu(input_text):
+    return 0

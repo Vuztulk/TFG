@@ -3,7 +3,7 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from torch.profiler import profile, record_function, ProfilerActivity
 import time
 
-def pred_gpt2(input_text):
+def pred_gpt2_cpu(input_text):
     
     start_time = time.time()
     
@@ -29,3 +29,6 @@ def pred_gpt2(input_text):
     duration = end_time - start_time
 
     return tokenizer.decode(outputs[0], skip_special_tokens=True), cpu_time_str, duration
+
+def pred_gpt2_gpu(input_text):
+    return 0

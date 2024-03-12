@@ -19,7 +19,7 @@ def recibir_texto():
         accion = request.form.get('accion')
         texto = request.form['texto']
         #modelo = request.form['modelo']
-        modelo = 'cartenisus'
+        modelo = 'marian'
         
         funciones = {
             'clasificacion': {

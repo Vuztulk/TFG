@@ -38,7 +38,7 @@ def clasificacion_sentimientos():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        resultado, t_cpu, t_total = procesar_solicitud('clasificacion',placa, texto, modelo)
+        resultado, t_cpu, t_total = procesar_solicitud('clasificacion', placa, texto, modelo)
         return render_template('clasificacion_sentimientos.html', resultado=resultado)
     
     return render_template('clasificacion_sentimientos.html')
@@ -49,7 +49,7 @@ def predictor_texto():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        resultado, t_cpu, t_total = procesar_solicitud('predictor',placa, texto, modelo)
+        resultado, t_cpu, t_total = procesar_solicitud('predictor', placa, texto, modelo)
         return render_template('predictor_texto.html', resultado=resultado)
     
     return render_template('predictor_texto.html')

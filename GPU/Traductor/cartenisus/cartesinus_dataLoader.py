@@ -16,7 +16,8 @@ class TextDataset(Dataset):
         return len(self.text)
 
     def __getitem__(self, idx):
-        return self.tokenizer(self.text[idx], return_tensors='pt')
+        return self.tokenizer([self.text[idx]], return_tensors='pt')
+
 
 # Verificar si hay una GPU disponible
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

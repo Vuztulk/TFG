@@ -27,7 +27,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained("cartesinus/iva_mt_wslot-m2m100_41
 model = model.to(device)
 
 # Crear el DataLoader
-dataset = TextDataset('/home/tfg1/TFG/Problemas/Traductor/input.txt', tokenizer)
+dataset = TextDataset('./input.txt', tokenizer)
 dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
 
 # Abrir el archivo de resultados

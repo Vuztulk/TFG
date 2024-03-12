@@ -21,8 +21,6 @@ class TextDataset(Dataset):
         batch = self.text[start:end]
         return self.tokenizer(batch, return_tensors='pt', padding=True, truncation=True)
 
-
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Cargar el tokenizador y el modelo
@@ -32,7 +30,7 @@ model = model.to(device)
 
 # Crear el DataLoader
 dataset = TextDataset('./input.txt', tokenizer)
-dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
+dataloader = DataLoader(dataset, batch_size=16, shuffle=False)
 
 # Abrir el archivo de resultados
 with open('resultados.txt', 'w') as f:

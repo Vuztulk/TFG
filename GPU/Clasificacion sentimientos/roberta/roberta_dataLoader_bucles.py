@@ -2,8 +2,6 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-import psutil
-import os
 import time
 
 class TextDataset(Dataset):
@@ -42,9 +40,9 @@ with open('resultados.txt', 'w') as f:
             with profile(activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
                     for input_text in dataloader:
-                        # Movemos los datos de entrada a la GPU si es necesario
-                        input_text = input_text.to(device)
-                        encoded_input = tokenizer(input_text[0], return_tensors='pt')
+                        # Accedemos al primer elemento de la lista (los datos de entrada) y los movemos a la GPU si es necesario
+                        input_text = input_text[0].to(device)
+                        encoded_input = tokenizer(input_text, return_tensors='pt')
                         outputs = model(**encoded_input)
                         logits = outputs.logits
                         predicted_class = torch.argmax(logits).item()

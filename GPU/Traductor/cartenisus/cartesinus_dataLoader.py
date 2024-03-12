@@ -16,10 +16,13 @@ class TextDataset(Dataset):
         return len(self.text)
 
     def __getitem__(self, idx):
-        return self.tokenizer([self.text[idx]], return_tensors='pt')
+        start = idx * self.batch_size
+        end = start + self.batch_size
+        batch = self.text[start:end]
+        return self.tokenizer(batch, return_tensors='pt', padding=True, truncation=True)
 
 
-# Verificar si hay una GPU disponible
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Cargar el tokenizador y el modelo

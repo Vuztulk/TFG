@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from Modelos.Clasificacion_Sentimientos.distilbert import sent_distilbert
 from Modelos.Traductor.marian import trad_marian
 from Modelos.Traductor.cartesinus import trad_cartenisus
@@ -19,7 +19,7 @@ def recibir_texto():
         accion = request.form.get('accion')
         texto = request.form['texto']
         #modelo = request.form['modelo']
-        modelo = 'marian'
+        modelo = 'cartenisus'
         
         funciones = {
             'clasificacion': {
@@ -46,7 +46,7 @@ def recibir_texto():
         except KeyError:
             resultado = 'Acción desconocida'
 
-        return resultado
+        return jsonify({'resultado': resultado, 't_cpu': t_cpu, 't_total': t_total})
     
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=6000)

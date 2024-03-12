@@ -15,8 +15,7 @@ def procesar_solicitud(accion, placa, texto, modelo):
     else:
         return "Placa no reconocida"
     
-    response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo})
-    return response.text
+    return requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo}).json().values()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -28,7 +27,7 @@ def traductor():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        resultado = procesar_solicitud('traduccion', placa, texto, modelo)
+        resultado, t_cpu, t_total = procesar_solicitud('traduccion', placa, texto, modelo)
         return render_template('traductor.html', resultado=resultado)
     
     return render_template('traductor.html')
@@ -39,8 +38,7 @@ def clasificacion_sentimientos():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        
-        resultado = procesar_solicitud('clasificacion',placa, texto, modelo)
+        resultado, t_cpu, t_total = procesar_solicitud('clasificacion',placa, texto, modelo)
         return render_template('clasificacion_sentimientos.html', resultado=resultado)
     
     return render_template('clasificacion_sentimientos.html')
@@ -51,8 +49,7 @@ def predictor_texto():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        
-        resultado = procesar_solicitud('predictor',placa, texto, modelo)
+        resultado, t_cpu, t_total = procesar_solicitud('predictor',placa, texto, modelo)
         return render_template('predictor_texto.html', resultado=resultado)
     
     return render_template('predictor_texto.html')
@@ -63,8 +60,7 @@ def resumen_texto():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        
-        resultado = procesar_solicitud('resumen', placa, texto, modelo)
+        resultado, t_cpu, t_total = procesar_solicitud('resumen', placa, texto, modelo)
         return render_template('resumen_texto.html', resultado=resultado)
     
     return render_template('resumen_texto.html')

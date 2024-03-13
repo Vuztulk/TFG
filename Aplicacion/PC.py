@@ -30,7 +30,7 @@ def traductor():
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
         resultado, t_cpu, t_total = procesar_solicitud('traduccion', placa, texto, modelo)
-        return render_template('traductor.html', resultado=resultado, placa=placa)
+        return render_template('traductor.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total)
     
     return render_template('traductor.html')
 

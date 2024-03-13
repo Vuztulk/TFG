@@ -27,7 +27,7 @@ def trad_marian_cpu(input_text):
             
     end_time = time.time()
     duration = end_time - start_time
-    formatted_duration = f'{duration:.4f}'
+    formatted_duration = f'{duration:.4f}'.replace('.', ',')
     
     return output_text, cpu_time_str, formatted_duration
 

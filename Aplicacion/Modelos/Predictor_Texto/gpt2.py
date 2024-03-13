@@ -27,7 +27,7 @@ def pred_gpt2_cpu(input_text):
             
     end_time = time.time()
     duration = end_time - start_time
-    formatted_duration = f'{duration:.4f}'
+    formatted_duration = f'{duration:.4f}'.replace('.', ',')
 
     return tokenizer.decode(outputs[0], skip_special_tokens=True), cpu_time_str, formatted_duration
 

@@ -29,7 +29,7 @@ def sent_sbcbi_cpu(input_text):
             
     end_time = time.time()
     duration = end_time - start_time
-    formatted_duration = f'{duration:.4f}'
+    formatted_duration = f'{duration:.4f}'.replace('.', ',')
 
     return sentiment_classes[predicted_class], cpu_time_str, formatted_duration
 

@@ -40,6 +40,22 @@ código-->
             <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
+        <!-- Elección del modelo que queremos utilizar -->
+        <div class="text-center">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="marian" value="marian" checked>
+                <label class="form-check-label" for="inlineRadio1">Marian (español a inglés)</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="cartenisus" value="cartenisus">
+                <label class="form-check-label" for="inlineRadio2">Cartenisus (inglés a español)</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="autotrain" value="autotrain">
+                <label class="form-check-label" for="inlineRadio3">Autotrain (inglés a español)</label>
+            </div>
+        </div>
+
         <!-- Formularios para poner el input del modelo y que nos devuelva el output-->
         <form action="#" id="myForm" method="post">
             <div class = "mb-4">
@@ -72,16 +88,39 @@ código-->
                 <div class="alert alert-success d-flex align-items-center my-3" role="alert">
                     <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
                     <div>
-                         Se ha realizado la traducción correctamente en
-                         {% if placa == "Raspberry" %}
-                            <strong>Raspberry</strong>.
-                         {% elif placa == "Orin-CPU" %}
-                            <strong>Orin-CPU</strong>.
-                         {% elif placa == "Orin-GPU" %}
-                            <strong>Orin-GPU</strong>.
-                         {% elif placa == "Local" %}
-                            <strong>Local</strong>.
-                         {% endif %}
+                        Se ha realizado la traducción correctamente en
+                        {% if modelo == "marian"%}
+                            {% if placa == "Raspberry" %}
+                                <strong>Raspberry</strong> con <strong>Marian</strong>.
+                            {% elif placa == "Orin-CPU" %}
+                                <strong>Orin-CPU</strong> con <strong>Marian</strong>.
+                            {% elif placa == "Orin-GPU" %}
+                                <strong>Orin-GPU</strong> con <strong>Marian</strong>.
+                            {% elif placa == "Local" %}
+                                <strong>Local</strong> con <strong>Marian</strong>.
+                            {% endif %}
+                        {% elif modelo == "autotrain" %}
+                            {% if placa == "Raspberry" %}
+                                <strong>Raspberry</strong> con <strong>Autotrain</strong>.
+                            {% elif placa == "Orin-CPU" %}
+                                <strong>Orin-CPU</strong> con <strong>Autotrain</strong>.
+                            {% elif placa == "Orin-GPU" %}
+                                <strong>Orin-GPU</strong> con <strong>Autotrain</strong>.
+                            {% elif placa == "Local" %}
+                                <strong>Local</strong> con <strong>Autotrain</strong>.
+                            {% endif %}
+                        {% elif modelo == "cartenisus" %}
+                            {% if placa == "Raspberry" %}
+                                <strong>Raspberry</strong> con <strong>Cartenisus</strong>.
+                            {% elif placa == "Orin-CPU" %}
+                                <strong>Orin-CPU</strong> con <strong>Cartenisus</strong>.
+                            {% elif placa == "Orin-GPU" %}
+                                <strong>Orin-GPU</strong> con <strong>Cartenisus</strong>.
+                            {% elif placa == "Local" %}
+                                <strong>Local</strong> con <strong>Cartenisus</strong>.
+                            {% endif %}
+                        {% endif %}
+                        
                     </div>
                     <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -89,10 +128,9 @@ código-->
 
             </div>
             <div>
-                <!-- Esto es el botón para los sentimientos
-                    <input type="submit" class="btn btn-primary" name="submit_clasificacion" value="Clasificar Texto">
-                -->
+                <!-- Campos ocultos que sirven para guardar la placa y el modelo -->
                 <input type="hidden" id="placa" name="placa" value="Local">
+                <input type="hidden" id="modelo" name="modelo" value="marian">
 
                 <button type="submit" class="btn btn-link btn-lg float-end" name="submit_traduccion">
                     <svg class="bi my-1 theme-icon-active"><use href="#bi-send"></use></svg> 
@@ -110,6 +148,13 @@ código-->
             document.getElementById('placa').value = this.innerText;
         });
     });
+
+    // Función para detectar el cambio en los radio buttons y actualizar el campo oculto
+    document.querySelectorAll('input[type=radio]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                document.getElementById('modelo').value = this.value;
+            });
+        });
 
     // Cambia la pestaña activa dependiendo de al link que pulsemos en la navegación
     document.querySelectorAll('.nav-link').forEach(link => {

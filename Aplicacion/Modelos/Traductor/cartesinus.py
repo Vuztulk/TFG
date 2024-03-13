@@ -32,4 +32,33 @@ def trad_cartenisus_cpu(input_text):
     return output_text, cpu_time_str, formatted_duration
 
 def trad_cartenisus_gpu(input_text):
-    return 0
+    
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    start_time = time.time()
+
+    tokenizer = AutoTokenizer.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
+    model = AutoModelForSeq2SeqLM.from_pretrained("cartesinus/iva_mt_wslot-m2m100_418M-en-es")
+    model = model.to(device)
+    
+    input_ids = tokenizer.encode(input_text, return_tensors='pt').to(device)
+
+    # Realizar la inferencia del modelo con el perfilador
+    with torch.no_grad():
+            with profile(activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU], record_shapes=True) as prof:
+                with record_function("model_inference"):
+                    generated_tokens = model.generate(input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
+
+    output_text = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)[0]
+    
+    model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
+    if model_inference_event:
+        gpu_time = model_inference_event[0].cuda_time_total
+        gpu_time_seconds = gpu_time / 1_000_000
+        gpu_time_str = f'{gpu_time_seconds:.4f}'.replace('.', ',')
+            
+    end_time = time.time()
+    duration = end_time - start_time
+    formatted_duration = f'{duration:.4f}'.replace('.', ',')
+    
+    return output_text, gpu_time_str, formatted_duration

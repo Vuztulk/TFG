@@ -11,12 +11,10 @@
         <div class="card-body">
           <h5 class="card-title">Traducción</h5>
           <p class="card-text">Traduce el texto de español a inglés que desees.</p>
-
           <!-- Botón especifico para que salga el modal y preguntar, el modal está configurado en sí más abajo -->
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTraductor">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" data-href="/traductor">
             Traductor
           </button>
-
         </div>
       </div>
     </div>
@@ -25,7 +23,10 @@
         <div class="card-body">
           <h5 class="card-title">Clasificación de sentimietos</h5>
           <p class="card-text">Te predecirá si tus sentimientos son positivos o negativos</p>
-          <a href="#" class="btn btn-primary">Sentimientos</a>
+          <!-- Botón especifico para que salga el modal y preguntar, el modal está configurado en sí más abajo -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" data-href="/clasificacion_sentimientos">
+            Sentimietos
+          </button>
         </div>
       </div>
     </div>
@@ -43,7 +44,9 @@
         <div class="card-body">
           <h5 class="card-title">Resumir texto</h5>
           <p class="card-text">Introduce un texto para resumirlo en menos palabras</p>
-          <a href="#" class="btn btn-primary">Rusumen</a>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" data-href="/resumen_texto">
+            Resumir
+          </button>
         </div>
       </div>
     </div>
@@ -52,28 +55,31 @@
         <div class="card-body">
           <h5 class="card-title">Generar texto</h5>
           <p class="card-text">Te ayuda a seguir un texto si no tienes ideas</p>
-          <a href="#" class="btn btn-primary">Generar</a>
+          <!-- Botón especifico para que salga el modal y preguntar, el modal está configurado en sí más abajo -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal" data-href="/predictor_texto">
+            Generar
+          </button>
         </div>
       </div>
     </div>
 </div>
 
 <!-- Modal para elegir con qué opción en primer lugar quieres probar los problemas -->
-<div class="modal fade" id="modalTraductor" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Traductor</h1>
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Información sobre dispositivos</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Para traducir tu texto deseado puedes realizarlo de diferentes formas evaluando el rendimiento de cada una de las opciones,
+          Para realizar la inferencia de tu texto puedes realizarlo de diferentes formas evaluando el rendimiento de cada una de las opciones,
           aprovechando las cualidades de cada una, pudiendo elegir entre una Raspberry Pi, una placa Orin Nvidia con CPU, esta misma pero con el uso de GPU o 
           directamente localmente en tu PC.<br> <br> 
           Podrás cambiar la forma de ejecución posteriormente.
         </div>
         <div class="modal-footer">
-          <a href="/traductor" class="btn btn-primary">IR</a>
+          <a href="#" class="btn btn-primary">IR</a>
         </div>
       </div>
     </div>
@@ -91,6 +97,19 @@
         loop: true,
         backDelay: 1500,
         loopCount: 2,
+    });
+
+    //Cuando pulsamos el botón del modal elige el data-href que es la página donde nos dirigimos, esto para no tener
+    //4 modales diferentes que tienen lo mismo pero solo cambia el href donde nos dirigimos
+    document.addEventListener('DOMContentLoaded', function () {
+        var modalTriggerButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
+        modalTriggerButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var href = button.getAttribute('data-href');
+                var modalLink = document.querySelector('#modal .modal-footer a');
+                modalLink.setAttribute('href', href);
+            });
+        });
     });
 </script>
 

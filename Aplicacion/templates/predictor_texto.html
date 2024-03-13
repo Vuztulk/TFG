@@ -1,0 +1,140 @@
+<!-- Con esto extendemos de layout y todo lo que tenga layout estará en el index-->
+{% extends 'layout.html' %} 
+
+<!-- indicamos que empieza el body -->
+{% block body %} 
+
+<!-- Navegación para ir desde un dispositivo a otro y en el cuerpo tenemos la funcionalidad del modelo,
+esto más adelante se puede hacer una plantilla y que luego hereden de esto para que tengan lo mismo y no repetir tanto
+código-->
+<div class="card mx-5 my-5">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" href="#">Local</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Orin-CPU</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Orin-GPU</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Raspberry</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+
+        <!--Alerta de información sobre el modo de uso de cada problema-->
+        <div class="alert alert-primary d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+            <div>
+              <strong>MODO DE USO:</strong>
+              <p>Introduce el texto que quieras continuar. Para volver a realizar una petición solamente vuelve a escribir
+                en el apartado del input y envíalo. Si quieres ejecutar dicha petición desde otro dispositivo muévete por las pestañas. 
+                También puedes cambiar con los cheks de abajo el modelo que se emprea para realizar la inferencia.
+                Una vez acabes una ejecución te aparecerá una alerta recordandote en que dispositivo has ejecutado el problema y
+                con que modelo, después volveran al predeterminado, asi que asegurate de voler a elegir tu opción si lo deseas.
+                <strong>IMPORTANTE: </strong> el texto debe estar en inglés, si necesitas ayuda ve a <a href="/traductor">traductor</a>.
+              </p>
+            </div>
+            <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <!-- Elección del modelo que queremos utilizar -->
+        <div class="text-center">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="default" value="default" checked>
+                <label class="form-check-label" for="inlineRadio1">GPT-2</label>
+            </div>
+        </div>
+
+        <!-- Formularios para poner el input del modelo y que nos devuelva el output-->
+        <form action="#" id="myForm" method="post">
+            <div class = "mb-4">
+                <label for="texto">Texto:</label><br>
+                <textarea type="text" id="texto" name="texto" class="form-control" maxlength="180" aria-describedby="inputInfo"> </textarea>
+                <div id="inputInfo" class="form-text">Escribe cuanto quieras pero el texto está limitado a 180 caracteres para que la funcionalidad en todos los 
+                    dispositivos disponibles no se vea afectada.
+                </div>
+
+                {% if resultado %}
+                <div class="row align-items-center mt-3">
+                    <div class="col-auto">
+                        <svg class="bi my-1 theme-icon-active text-primary" style="font-size: 2rem;"><use href="#bi-robot"></use></svg>
+                    </div>
+                    <div class="col">
+                        <p>{{ resultado }}</p>
+                    </div>
+                </div>
+                <div class="row align-items-center mt-3">
+                    <div class="col-auto">
+                        <p>Tiempo de Inferencia: <strong>{{ t_cpu }}s</strong>  </p>
+                    </div>
+                    <div class="col">
+                        <p>Tiempo total: <strong>{{ t_total }}s</strong></p>
+                    </div>
+                </div>                      
+                {% endif %}
+
+                {% if placa %}
+                <div class="alert alert-success d-flex align-items-center my-3" role="alert">
+                    <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                    <div>
+                        Se ha realizado la traducción correctamente en
+                        {% if modelo == "default"%}
+                            {% if placa == "Raspberry" %}
+                                <strong>Raspberry</strong> con <strong>GPT-2</strong>.
+                            {% elif placa == "Orin-CPU" %}
+                                <strong>Orin-CPU</strong> con <strong>GPT-2</strong>.
+                            {% elif placa == "Orin-GPU" %}
+                                <strong>Orin-GPU</strong> con <strong>GPT-2</strong>.
+                            {% elif placa == "Local" %}
+                                <strong>Local</strong> con <strong>GPT-2</strong>.
+                            {% endif %}
+                        {% endif %}
+                        
+                    </div>
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+
+            </div>
+            <div>
+                <!-- Campos ocultos que sirven para guardar la placa y el modelo -->
+                <input type="hidden" id="placa" name="placa" value="Local">
+                <input type="hidden" id="modelo" name="modelo" value="default">
+
+                <button type="submit" class="btn btn-link btn-lg float-end" name="submit_generador">
+                    <svg class="bi my-1 theme-icon-active"><use href="#bi-send"></use></svg> 
+                </button>
+            </div>  
+        </form>
+
+    </div>
+</div>
+
+<script>
+    // Cambia el valor del campo oculto cuando se cambia de pestaña
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            document.getElementById('placa').value = this.innerText;
+        });
+    });
+
+    // Cambia la pestaña activa dependiendo de al link que pulsemos en la navegación
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            // Elimina la clase 'active' de todos los enlaces
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Agrega la clase 'active' solo al enlace clicado
+            this.classList.add('active');
+        });
+    });
+</script>
+
+<!--Aquí indicamos que termian el body-->
+{% endblock %} 

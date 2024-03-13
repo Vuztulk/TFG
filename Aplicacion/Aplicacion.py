@@ -41,7 +41,7 @@ def clasificacion_sentimientos():
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
         resultado, t_cpu, t_total = procesar_solicitud('clasificacion', placa, texto, modelo)
-        return render_template('clasificacion_sentimientos.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total)
+        return render_template('clasificacion_sentimientos.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
     
     return render_template('clasificacion_sentimientos.html')
 
@@ -52,7 +52,7 @@ def predictor_texto():
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
         resultado, t_cpu, t_total = procesar_solicitud('predictor', placa, texto, modelo)
-        return render_template('predictor_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total)
+        return render_template('predictor_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
     
     return render_template('predictor_texto.html')
 
@@ -63,7 +63,7 @@ def resumen_texto():
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
         resultado, t_cpu, t_total = procesar_solicitud('resumen', placa, texto, modelo)
-        return render_template('resumen_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total)
+        return render_template('resumen_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
     
     return render_template('resumen_texto.html')
 

@@ -12,12 +12,6 @@ from Modelos.Resumen_Texto.T5 import res_t5_cpu, res_t5_gpu
 
 app = Flask(__name__)
 
-def get_model_processor(model_name):
-    if torch.cuda.is_available():
-        return model_name + '_gpu'
-    else:
-        return model_name + '_cpu'
-
 @app.route('/', methods=['POST'])
 def recibir_texto():
     if request.method == 'POST':

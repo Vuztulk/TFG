@@ -29,8 +29,9 @@ def sent_roberta_cpu(input_text):
             
     end_time = time.time()
     duration = end_time - start_time
+    formatted_duration = f'{duration:.4f}'
 
-    return sentiment_classes[predicted_class], cpu_time_str, duration
+    return sentiment_classes[predicted_class], cpu_time_str, formatted_duration
 
 def sent_roberta_gpu(input_text):
     return 0

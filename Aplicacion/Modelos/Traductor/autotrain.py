@@ -29,8 +29,9 @@ def trad_autotrain_cpu(input_text):
             
     end_time = time.time()
     duration = end_time - start_time
+    formatted_duration = f'{duration:.4f}'
 
-    return output_text, cpu_time_str, duration
+    return output_text, cpu_time_str, formatted_duration
 
 def trad_autotrain_gpu(input_text):
     return 0

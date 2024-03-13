@@ -5,13 +5,13 @@ app = Flask(__name__)
 
 def procesar_solicitud(accion, placa, texto, modelo, procesador = 'cpu'):
     
-    if placa == 'local':
+    if placa == 'Local':
         url = 'http://127.0.0.1:6000'
-    elif placa == 'rasperri':
+    elif placa == 'Raspberry':
         url = 'URL_para_rasperri'
-    elif placa == 'orin-cpu':
+    elif placa == 'Orin-CPU':
         url = 'URL_para_orin-cpu'
-    elif placa == 'orin-gpu':
+    elif placa == 'Orin-GPU':
         url = 'URL_para_orin-gpu'
         procesador = 'gpu'
     else:

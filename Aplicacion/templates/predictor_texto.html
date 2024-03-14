@@ -42,11 +42,24 @@ código-->
             <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
-        <!-- Elección del modelo que queremos utilizar -->
-        <div class="text-center">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="default" value="default" checked>
-                <label class="form-check-label" for="inlineRadio1">GPT-2</label>
+        <!-- Elección del modelo que queremos utilizar y la longitud de la respuesta -->
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="default" value="default" checked>
+                        <label class="form-check-label" for="inlineRadio1">GPT-2</label>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <select class="form-select" aria-label="Longitud de la respuesta">
+                        <option disabled>Longitud de la respuesta</option>
+                        <option value="50" selected>50 palabras</option>
+                        <option value="100">100 palabras</option>
+                        <option value="150">150 palabras</option>
+                        <option value="200">200 palabras</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -105,6 +118,7 @@ código-->
                 <!-- Campos ocultos que sirven para guardar la placa y el modelo -->
                 <input type="hidden" id="placa" name="placa" value="Local">
                 <input type="hidden" id="modelo" name="modelo" value="default">
+                <input type="hidden" id="longitud" name="longitud" value="50">
 
                 <button type="submit" class="btn btn-link btn-lg float-end" name="submit_generador">
                     <svg class="bi my-1 theme-icon-active"><use href="#bi-send"></use></svg> 
@@ -121,6 +135,11 @@ código-->
         link.addEventListener('click', function() {
             document.getElementById('placa').value = this.innerText;
         });
+    });
+
+     //Cambia el valor oculto de la longitud dependiendo de lo que seleccionemos
+     document.querySelector('.form-select').addEventListener('change', function() {
+        document.getElementById('longitud').value = this.value;
     });
 
     // Cambia la pestaña activa dependiendo de al link que pulsemos en la navegación

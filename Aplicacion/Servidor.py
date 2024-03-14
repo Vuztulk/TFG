@@ -20,7 +20,7 @@ def recibir_texto():
         texto = request.form['texto']
         modelo = request.form['modelo']
         procesador = request.form['procesador']
-        longitud = request.form['longitud']
+        longitud = int(request.form['longitud'])
         
         funciones = {
             'clasificacion': {

@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 import torch
+import os
 from Modelos.Clasificacion_Sentimientos.distilbert import sent_distilbert_cpu, sent_distilbert_gpu
 from Modelos.Traductor.marian import trad_marian_cpu, trad_marian_gpu
 from Modelos.Traductor.cartesinus import trad_cartenisus_cpu, trad_cartenisus_gpu
@@ -45,8 +46,10 @@ def recibir_texto():
         try:
             cpu_func, gpu_func = funciones[accion][modelo]
             if procesador == 'gpu' and torch.cuda.is_available():
+                #os.system(f"workon {".venv_gpu"}")
                 resultado, t_cpu, t_total = gpu_func(texto, longitud)
             else:
+                #os.system(f"workon {".venv_cpu"}")
                 resultado, t_cpu, t_total = cpu_func(texto, longitud)
         except KeyError:
             resultado = 'Acción desconocida'

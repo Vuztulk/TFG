@@ -17,7 +17,7 @@ def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador = 'cpu
     else:
         return "Placa no reconocida"
     
-    return requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo,'longitud': longitud, 'procesador': procesador}).json().values()
+    return requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador}).json().values()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():

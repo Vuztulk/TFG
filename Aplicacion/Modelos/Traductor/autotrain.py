@@ -3,7 +3,7 @@ from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import time
 
-def trad_autotrain_cpu(input_text):
+def trad_autotrain_cpu(input_text, longitud):
     
     start_time = time.time()
 
@@ -33,7 +33,7 @@ def trad_autotrain_cpu(input_text):
 
     return output_text, cpu_time_str, formatted_duration
 
-def trad_autotrain_gpu(input_text):
+def trad_autotrain_gpu(input_text, longitud):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     start_time = time.time()

@@ -3,7 +3,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from torch.profiler import profile, record_function, ProfilerActivity
 import time
 
-def sent_roberta_cpu(input_text):
+def sent_roberta_cpu(input_text, longitud):
     
     start_time = time.time()
     
@@ -33,7 +33,7 @@ def sent_roberta_cpu(input_text):
 
     return sentiment_classes[predicted_class], cpu_time_str, formatted_duration
 
-def sent_roberta_gpu(input_text):
+def sent_roberta_gpu(input_text, longitud):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     

@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-def procesar_solicitud(accion, placa, texto, modelo, procesador = 'cpu'):
+def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador = 'cpu'):
     
     if placa == 'Local':
         url = 'http://127.0.0.1:6000'
@@ -17,7 +17,7 @@ def procesar_solicitud(accion, placa, texto, modelo, procesador = 'cpu'):
     else:
         return "Placa no reconocida"
     
-    return requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'procesador': procesador}).json().values()
+    return requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo,'longitud': longitud, 'procesador': procesador}).json().values()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -29,7 +29,7 @@ def traductor():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        resultado, t_cpu, t_total = procesar_solicitud('traduccion', placa, texto, modelo)
+        resultado, t_cpu, t_total = procesar_solicitud('traduccion', placa, texto, modelo, 0)
         return render_template('traductor.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
     
     return render_template('traductor.html')
@@ -40,7 +40,7 @@ def clasificacion_sentimientos():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        resultado, t_cpu, t_total = procesar_solicitud('clasificacion', placa, texto, modelo)
+        resultado, t_cpu, t_total = procesar_solicitud('clasificacion', placa, texto, modelo, 0)
         return render_template('clasificacion_sentimientos.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
     
     return render_template('clasificacion_sentimientos.html')
@@ -51,7 +51,8 @@ def predictor_texto():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        resultado, t_cpu, t_total = procesar_solicitud('predictor', placa, texto, modelo)
+        longitud = request.form.get('longitud')
+        resultado, t_cpu, t_total = procesar_solicitud('predictor', placa, texto, modelo, longitud)
         return render_template('predictor_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
     
     return render_template('predictor_texto.html')
@@ -62,7 +63,8 @@ def resumen_texto():
         texto = request.form.get('texto')
         placa = request.form.get('placa')
         modelo = request.form.get('modelo')
-        resultado, t_cpu, t_total = procesar_solicitud('resumen', placa, texto, modelo)
+        longitud = request.form.get('longitud')
+        resultado, t_cpu, t_total = procesar_solicitud('resumen', placa, texto, modelo, longitud)
         return render_template('resumen_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
     
     return render_template('resumen_texto.html')

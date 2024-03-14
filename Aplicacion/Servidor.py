@@ -20,7 +20,7 @@ def recibir_texto():
         texto = request.form['texto']
         modelo = request.form['modelo']
         procesador = request.form['procesador']
-        #modelo = 'marian'
+        longitud = request.form['longitud']
         
         funciones = {
             'clasificacion': {
@@ -45,9 +45,9 @@ def recibir_texto():
         try:
             cpu_func, gpu_func = funciones[accion][modelo]
             if procesador == 'gpu' and torch.cuda.is_available():
-                resultado, t_cpu, t_total = gpu_func(texto)
+                resultado, t_cpu, t_total = gpu_func(texto, longitud)
             else:
-                resultado, t_cpu, t_total = cpu_func(texto)
+                resultado, t_cpu, t_total = cpu_func(texto, longitud)
         except KeyError:
             resultado = 'Acción desconocida'
 

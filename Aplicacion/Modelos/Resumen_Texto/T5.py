@@ -5,7 +5,7 @@ import psutil
 import os
 import time
 
-def res_t5_cpu(input_text):
+def res_t5_cpu(input_text, longitud):
     
     start_time = time.time()
     
@@ -17,7 +17,7 @@ def res_t5_cpu(input_text):
     with torch.no_grad():
         with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                summary_ids = model.generate(inputs, max_length=100, min_length=30, num_beams=4, early_stopping=True)
+                summary_ids = model.generate(inputs, max_length = longitud, min_length=30, num_beams=4, early_stopping=True)
 
     summary_text = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
     
@@ -33,7 +33,7 @@ def res_t5_cpu(input_text):
 
     return summary_text, cpu_time_str, formatted_duration
 
-def res_t5_gpu(input_text):
+def res_t5_gpu(input_text, longitud):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
@@ -48,7 +48,7 @@ def res_t5_gpu(input_text):
     with torch.no_grad():
         with profile(activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                summary_ids = model.generate(inputs, max_length=100, min_length=30, num_beams=4, early_stopping=True)
+                summary_ids = model.generate(inputs, max_length = longitud, min_length=30, num_beams=4, early_stopping=True)
 
     summary_text = tokenizer.decode(summary_ids[0], skip_special_tokens=True)
     

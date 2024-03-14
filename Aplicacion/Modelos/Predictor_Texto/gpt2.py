@@ -3,7 +3,7 @@ from transformers import GPT2Tokenizer, GPT2LMHeadModel
 from torch.profiler import profile, record_function, ProfilerActivity
 import time
 
-def pred_gpt2_cpu(input_text):
+def pred_gpt2_cpu(input_text, longitud):
     
     start_time = time.time()
     
@@ -17,7 +17,7 @@ def pred_gpt2_cpu(input_text):
     with torch.no_grad():
         with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                outputs = model.generate(encoded_input, max_length=100, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
+                outputs = model.generate(encoded_input, max_length=longitud, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
                 
     model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
     if model_inference_event:
@@ -31,7 +31,7 @@ def pred_gpt2_cpu(input_text):
 
     return tokenizer.decode(outputs[0], skip_special_tokens=True), cpu_time_str, formatted_duration
 
-def pred_gpt2_gpu(input_text):
+def pred_gpt2_gpu(input_text, longitud):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
@@ -48,7 +48,7 @@ def pred_gpt2_gpu(input_text):
     with torch.no_grad():
         with profile(activities=[ProfilerActivity.CUDA,ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                outputs = model.generate(input_ids, max_length=100, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
+                outputs = model.generate(input_ids, max_length=longitud, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
  
     model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
     if model_inference_event:

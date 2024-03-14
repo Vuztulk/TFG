@@ -3,7 +3,7 @@ from transformers import BartForConditionalGeneration, BartTokenizer
 from torch.profiler import profile, record_function, ProfilerActivity
 import time
 
-def res_bart_cpu(input_text):
+def res_bart_cpu(input_text, longitud):
     
     start_time = time.time()
     
@@ -15,7 +15,7 @@ def res_bart_cpu(input_text):
     with torch.no_grad():
         with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                summary_ids = model.generate(inputs.input_ids, num_beams=4, min_length=30, max_length=100, early_stopping=True)
+                summary_ids = model.generate(inputs.input_ids, num_beams=4, min_length=30, max_length = longitud, early_stopping=True)
                 
     model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
     if model_inference_event:
@@ -29,7 +29,7 @@ def res_bart_cpu(input_text):
 
     return tokenizer.decode(summary_ids[0], skip_special_tokens=True), cpu_time_str, formatted_duration
 
-def res_bart_gpu(input_text):
+def res_bart_gpu(input_text, longitud):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         
@@ -44,7 +44,7 @@ def res_bart_gpu(input_text):
     with torch.no_grad():
         with profile(activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                summary_ids = model.generate(inputs.input_ids, num_beams=4, min_length=30, max_length=100, early_stopping=True)
+                summary_ids = model.generate(inputs.input_ids, num_beams=4, min_length=30, max_length = longitud, early_stopping=True)
                 
     model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
     if model_inference_event:

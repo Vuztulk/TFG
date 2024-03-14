@@ -47,19 +47,18 @@ código-->
             <div class="row justify-content-center">
                 <div class="col-auto">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="default" value="default" checked>
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="gpt2" value="gpt2" checked>
                         <label class="form-check-label" for="inlineRadio1">GPT-2</label>
                     </div>
                 </div>
                 <div class="col-auto">
-                    <select class="form-select" aria-label="Longitud de la respuesta">
-                        <option disabled>Longitud de la respuesta</option>
-                        <option value="50" selected>50 palabras</option>
-                        <option value="100">100 palabras</option>
-                        <option value="150">150 palabras</option>
-                        <option value="200">200 palabras</option>
-                    </select>
+                    <p>Longitud de la salida aprox: </p>
                 </div>
+                <div class="col-auto">
+                    <input type="number" class="form-control" id="numero" name="numero" min="1" max="300" value="50">
+                    <div id="error-msg" class="text-danger"></div>
+                </div>
+                
             </div>
         </div>
 
@@ -95,19 +94,8 @@ código-->
                 <div class="alert alert-success d-flex align-items-center my-3" role="alert">
                     <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
                     <div>
-                        Se ha realizado la traducción correctamente en
-                        {% if modelo == "default"%}
-                            {% if placa == "Raspberry" %}
-                                <strong>Raspberry</strong> con <strong>GPT-2</strong>.
-                            {% elif placa == "Orin-CPU" %}
-                                <strong>Orin-CPU</strong> con <strong>GPT-2</strong>.
-                            {% elif placa == "Orin-GPU" %}
-                                <strong>Orin-GPU</strong> con <strong>GPT-2</strong>.
-                            {% elif placa == "Local" %}
-                                <strong>Local</strong> con <strong>GPT-2</strong>.
-                            {% endif %}
-                        {% endif %}
-                        
+                        Se ha realizado la traducción correctamente en <strong>{{placa}}</strong> con <strong>{{modelo}}</strong> 
+                        y una salida de <strong>{{longitud}}</strong> palabras aproximadamente.
                     </div>
                     <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -117,7 +105,7 @@ código-->
             <div>
                 <!-- Campos ocultos que sirven para guardar la placa y el modelo -->
                 <input type="hidden" id="placa" name="placa" value="Local">
-                <input type="hidden" id="modelo" name="modelo" value="default">
+                <input type="hidden" id="modelo" name="modelo" value="gpt2">
                 <input type="hidden" id="longitud" name="longitud" value="50">
 
                 <button type="submit" class="btn btn-link btn-lg float-end" name="submit_generador">
@@ -130,7 +118,7 @@ código-->
 </div>
 
 <script>
-    // Cambia el valor del campo oculto cuando se cambia de pestaña
+    // Cambia el valor del campo oculto cuando se cambia de pestaña para establecer la placa
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', function() {
             document.getElementById('placa').value = this.innerText;
@@ -138,8 +126,14 @@ código-->
     });
 
      //Cambia el valor oculto de la longitud dependiendo de lo que seleccionemos
-     document.querySelector('.form-select').addEventListener('change', function() {
-        document.getElementById('longitud').value = this.value;
+     document.getElementById('numero').addEventListener('input', function() {
+        var numeroInput = parseInt(this.value);
+        if (numeroInput >= 1 && numeroInput <= 300) {
+            document.getElementById('longitud').value = numeroInput.toString();
+        }
+        else {
+        document.getElementById('longitud').value = '50';
+        }
     });
 
     // Cambia la pestaña activa dependiendo de al link que pulsemos en la navegación
@@ -152,6 +146,19 @@ código-->
             // Agrega la clase 'active' solo al enlace clicado
             this.classList.add('active');
         });
+    });
+
+    //Para sacar el error de que el número de la salida está fuera de rango
+    document.getElementById('numero').addEventListener('input', function() {
+      var numeroInput = parseInt(this.value);
+      var errorMsg = document.getElementById('error-msg');
+      if (numeroInput < 1 || numeroInput > 300) {
+        errorMsg.textContent = 'El número debe estar entre 1 y 300';
+        this.setCustomValidity('Número fuera del rango permitido');
+      } else {
+        errorMsg.textContent = '';
+        this.setCustomValidity('');
+      }
     });
 </script>
 

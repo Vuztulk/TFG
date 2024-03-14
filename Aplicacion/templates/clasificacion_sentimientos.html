@@ -101,39 +101,7 @@ código-->
                 <div class="alert alert-success d-flex align-items-center my-3" role="alert">
                     <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
                     <div>
-                        Se ha realizado la traducción correctamente en
-                        {% if modelo == "roberta"%}
-                            {% if placa == "Raspberry" %}
-                                <strong>Raspberry</strong> con <strong>RoBERTa</strong>.
-                            {% elif placa == "Orin-CPU" %}
-                                <strong>Orin-CPU</strong> con <strong>RoBERTa</strong>.
-                            {% elif placa == "Orin-GPU" %}
-                                <strong>Orin-GPU</strong> con <strong>RoBERTa</strong>.
-                            {% elif placa == "Local" %}
-                                <strong>Local</strong> con <strong>RoBERTa</strong>.
-                            {% endif %}
-                        {% elif modelo == "distilbert" %}
-                            {% if placa == "Raspberry" %}
-                                <strong>Raspberry</strong> con <strong>DistilBERT</strong>.
-                            {% elif placa == "Orin-CPU" %}
-                                <strong>Orin-CPU</strong> con <strong>DistilBERT</strong>.
-                            {% elif placa == "Orin-GPU" %}
-                                <strong>Orin-GPU</strong> con <strong>DistilBERT</strong>.
-                            {% elif placa == "Local" %}
-                                <strong>Local</strong> con <strong>DistilBERT</strong>.
-                            {% endif %}
-                        {% elif modelo == "sbcbi" %}
-                            {% if placa == "Raspberry" %}
-                                <strong>Raspberry</strong> con <strong>SBCI</strong>.
-                            {% elif placa == "Orin-CPU" %}
-                                <strong>Orin-CPU</strong> con <strong>SBCI</strong>.
-                            {% elif placa == "Orin-GPU" %}
-                                <strong>Orin-GPU</strong> con <strong>SBCI</strong>.
-                            {% elif placa == "Local" %}
-                                <strong>Local</strong> con <strong>SBCI</strong>.
-                            {% endif %}
-                        {% endif %}
-                        
+                        Se ha realizado la traducción correctamente en <strong>{{placa}}</strong> con <strong>{{modelo}}</strong>.
                     </div>
                     <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>

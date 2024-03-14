@@ -35,7 +35,7 @@ def recibir_texto():
                 'marian': (trad_marian_cpu, trad_marian_gpu)
             },
             'predictor': {
-                'default': (pred_gpt2_cpu, pred_gpt2_gpu)
+                'gpt2': (pred_gpt2_cpu, pred_gpt2_gpu)
             },
             'resumen': {
                 'bart': (res_bart_cpu, res_bart_gpu),

@@ -53,7 +53,7 @@ def predictor_texto():
         modelo = request.form.get('modelo')
         longitud = request.form.get('longitud')
         resultado, t_cpu, t_total = procesar_solicitud('predictor', placa, texto, modelo, longitud)
-        return render_template('predictor_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
+        return render_template('predictor_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo, longitud=longitud)
     
     return render_template('predictor_texto.html')
 
@@ -65,7 +65,7 @@ def resumen_texto():
         modelo = request.form.get('modelo')
         longitud = request.form.get('longitud')
         resultado, t_cpu, t_total = procesar_solicitud('resumen', placa, texto, modelo, longitud)
-        return render_template('resumen_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo)
+        return render_template('resumen_texto.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo, longitud=longitud)
     
     return render_template('resumen_texto.html')
 

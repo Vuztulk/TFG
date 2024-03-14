@@ -16,7 +16,7 @@ app = Flask(__name__)
 def recibir_texto():
     if request.method == 'POST':
         
-        accion = request.form.get('accion')
+        accion = request.form['accion']
         texto = request.form['texto']
         modelo = request.form['modelo']
         procesador = request.form['procesador']

@@ -43,23 +43,35 @@ código-->
         </div>
 
         <!-- Elección del modelo que queremos utilizar -->
-        <div class="text-center">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="bart" value="bart" checked>
-                <label class="form-check-label" for="inlineRadio1">BART</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="t5" value="t5">
-                <label class="form-check-label" for="inlineRadio2">T5</label>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="bart" value="bart" checked>
+                        <label class="form-check-label" for="inlineRadio1">BART</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="t5" value="t5">
+                        <label class="form-check-label" for="inlineRadio2">T5</label>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <p>Longitud (palabras) de la salida aprox: </p>
+                </div>
+                <div class="col-auto">
+                    <input type="number" class="form-control" id="numero" name="numero" min="1" max="300" value="50">
+                    <div id="error-msg" class="text-danger"></div>
+                </div>
             </div>
         </div>
+        
 
         <!-- Formularios para poner el input del modelo y que nos devuelva el output-->
         <form action="#" id="myForm" method="post">
             <div class = "mb-4">
                 <label for="texto">Texto:</label><br>
-                <textarea type="text" id="texto" name="texto" class="form-control" maxlength="180" aria-describedby="inputInfo"> </textarea>
-                <div id="inputInfo" class="form-text">Escribe cuanto quieras pero el texto está limitado a 180 caracteres para que la funcionalidad en todos los 
+                <textarea type="text" id="texto" name="texto" class="form-control" maxlength="300" aria-describedby="inputInfo"> </textarea>
+                <div id="inputInfo" class="form-text">Escribe cuanto quieras pero el texto está limitado a 300 caracteres para que la funcionalidad en todos los 
                     dispositivos disponibles no se vea afectada.
                 </div>
 
@@ -86,7 +98,8 @@ código-->
                 <div class="alert alert-success d-flex align-items-center my-3" role="alert">
                     <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
                     <div>
-                        Se ha realizado la traducción correctamente en <strong>{{placa}}</strong> con <strong>{{modelo}}</strong>. 
+                        Se ha realizado la traducción correctamente en <strong>{{placa}}</strong> con <strong>{{modelo}}</strong>
+                        y una salida de <strong>{{longitud}}</strong> palabras aproximadamente.
                     </div>
                     <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -97,6 +110,7 @@ código-->
                 <!-- Campos ocultos que sirven para guardar la placa y el modelo -->
                 <input type="hidden" id="placa" name="placa" value="Local">
                 <input type="hidden" id="modelo" name="modelo" value="bart">
+                <input type="hidden" id="longitud" name="longitud" value="50">
 
                 <button type="submit" class="btn btn-link btn-lg float-end" name="submit_resumen">
                     <svg class="bi my-1 theme-icon-active"><use href="#bi-send"></use></svg> 
@@ -113,6 +127,17 @@ código-->
         link.addEventListener('click', function() {
             document.getElementById('placa').value = this.innerText;
         });
+    });
+
+    //Cambia el valor oculto de la longitud dependiendo de lo que seleccionemos
+    document.getElementById('numero').addEventListener('input', function() {
+        var numeroInput = parseInt(this.value);
+        if (numeroInput >= 1 && numeroInput <= 300) {
+            document.getElementById('longitud').value = numeroInput.toString();
+        }
+        else {
+        document.getElementById('longitud').value = '50';
+        }
     });
 
     // Función para detectar el cambio en los radio buttons y actualizar el campo oculto
@@ -132,6 +157,19 @@ código-->
             // Agrega la clase 'active' solo al enlace clicado
             this.classList.add('active');
         });
+    });
+
+    //Para sacar el error de que el número de la salida está fuera de rango
+    document.getElementById('numero').addEventListener('input', function() {
+      var numeroInput = parseInt(this.value);
+      var errorMsg = document.getElementById('error-msg');
+      if (numeroInput < 1 || numeroInput > 300) {
+        errorMsg.textContent = 'El número debe estar entre 1 y 300';
+        this.setCustomValidity('Número fuera del rango permitido');
+      } else {
+        errorMsg.textContent = '';
+        this.setCustomValidity('');
+      }
     });
 </script>
 

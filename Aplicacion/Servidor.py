@@ -57,4 +57,5 @@ def recibir_texto():
         return jsonify({'resultado': resultado, 't_cpu': t_cpu, 't_total': t_total})
     
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port = 6000)
+    app.run(host = '0.0.0.0', port = 8888)
+

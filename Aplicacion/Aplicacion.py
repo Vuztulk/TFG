@@ -8,11 +8,11 @@ def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador = 'cpu
     if placa == 'Local':
         url = 'http://127.0.0.1:6000'
     elif placa == 'Raspberry':
-        url = 'URL_para_rasperri'
+        url = 'http://sardina.dacya.ucm.es:16992'
     elif placa == 'Orin-CPU':
-        url = 'URL_para_orin-cpu'
+        url = 'http://sardina.dacya.ucm.es:16992'
     elif placa == 'Orin-GPU':
-        url = 'URL_para_orin-gpu'
+        url = 'http://sardina.dacya.ucm.es:16992'
         procesador = 'gpu'
     else:
         return "Placa no reconocida"

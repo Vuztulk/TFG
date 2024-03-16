@@ -1,8 +1,6 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import T5ForConditionalGeneration, T5Tokenizer
-import psutil
-import os
 import time
 
 def res_t5_cpu(input_text, longitud):

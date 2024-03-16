@@ -76,14 +76,11 @@ if __name__ == '__main__':
 
     if args.r:
         host = ''
-
     elif args.o_c:
         host = '0.0.0.0'
-
     elif args.o_g:
         host = '0.0.0.0'
-
     elif args.l:
         host = '127.0.0.1'
-
+        
     app.run(host=host, port=8888)

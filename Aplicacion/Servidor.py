@@ -46,10 +46,10 @@ def recibir_texto():
         try:
             cpu_func, gpu_func = funciones[accion][modelo]
             if procesador == 'gpu' and torch.cuda.is_available():
-                os.system(f"workon {".venv_gpu"}")
+                os.system(f"workon {'.venv_gpu'}")
                 resultado, t_cpu, t_total = gpu_func(texto, longitud)
             else:
-                os.system(f"workon {".venv_cpu"}")
+                os.system(f"workon {'.venv_cpu'}")
                 resultado, t_cpu, t_total = cpu_func(texto, longitud)
         except KeyError:
             resultado = 'Acción desconocida'

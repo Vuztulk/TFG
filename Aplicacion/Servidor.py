@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import torch
 import os
+import argparse
 from Modelos.Clasificacion_Sentimientos.distilbert import sent_distilbert_cpu, sent_distilbert_gpu
 from Modelos.Traductor.marian import trad_marian_cpu, trad_marian_gpu
 from Modelos.Traductor.cartesinus import trad_cartenisus_cpu, trad_cartenisus_gpu
@@ -57,5 +58,27 @@ def recibir_texto():
         return jsonify({'resultado': resultado, 't_cpu': t_cpu, 't_total': t_total})
     
 if __name__ == '__main__':
-    app.run(host = '0.0.0.0', port = 8888)
+    parser = argparse.ArgumentParser()
 
+    parser.add_argument('-r', action='store_true', help='Argumento "r"')
+    parser.add_argument('-o-c', action='store_true', help='Argumento "o-c"')
+    parser.add_argument('-o-g', action='store_true', help='Argumento "o-g"')
+    parser.add_argument('-l', action='store_true', help='Argumento "l"')
+
+    args = parser.parse_args()
+
+    host = '127.0.0.1'
+
+    if args.r:
+        host = ''
+
+    elif args.o_c:
+        host = '0.0.0.0'
+
+    elif args.o_g:
+        host = '0.0.0.0'
+
+    elif args.l:
+        host = '127.0.0.1'
+
+    app.run(host=host, port=8888)

@@ -6,7 +6,7 @@ app = Flask(__name__)
 def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador = 'cpu'):
     
     if placa == 'Local':
-        url = 'http://127.0.0.1:6000'
+        url = 'http://127.0.0.1:8888'
     elif placa == 'Raspberry':
         url = 'http://sardina.dacya.ucm.es:16992'
     elif placa == 'Orin-CPU':

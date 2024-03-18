@@ -52,15 +52,15 @@ def recibir_texto():
             if procesador == 'gpu' and torch.cuda.is_available():
                 if get_current_venv() != '.venv_gpu':
                     os.system("workon .venv_gpu")
-                resultado, t_cpu, t_total = gpu_func(texto, longitud)
+                resultado, t_cpu, t_total, memoria = gpu_func(texto, longitud)
             else:
                 if get_current_venv() != '.venv_cpu':
                     os.system("workon .venv_cpu")
-                resultado, t_cpu, t_total = cpu_func(texto, longitud)
+                resultado, t_cpu, t_total, memoria = cpu_func(texto, longitud)
         except KeyError:
             resultado = 'Acción desconocida'
 
-        return jsonify({'resultado': resultado, 't_cpu': t_cpu, 't_total': t_total})
+        return jsonify({'resultado': resultado, 't_cpu': t_cpu, 't_total': t_total, 'memoria': memoria})
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

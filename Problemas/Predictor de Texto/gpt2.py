@@ -5,6 +5,11 @@ import psutil
 import os
 import time
 
+pid = os.getpid()
+py = psutil.Process(pid)
+
+initial_memory = psutil.Process(pid).memory_info().rss
+
 # Marcar el tiempo de inicio
 start_time = time.time()
 
@@ -14,7 +19,7 @@ model = GPT2LMHeadModel.from_pretrained('gpt2')
 model.config.pad_token_id = model.config.eos_token_id
 
 # Leer el texto de entrada desde un archivo .txt
-with open('/home/tfg1/TFG/Problemas/Predictor de Texto/input.txt', 'r') as file:
+with open('Problemas\Predictor de Texto\input.txt', 'r') as file:
     input_text = file.read().replace('\n', '')
 
 # Codificar entrada
@@ -35,12 +40,11 @@ print(prof.key_averages().table(sort_by="cpu_time_total", row_limit=10))
 output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 print(f'Output text: {output_text}')
 
-# Métricas adicionales
-pid = os.getpid()
-py = psutil.Process(pid)
 
-memory_use = py.memory_info()[0]/2.**30  # memory use in GB
-print(f'Memory use: {memory_use} GB')
+final_memory = psutil.Process(pid).memory_info().rss
+memory_used = final_memory - initial_memory
+memory_used_gb = round(memory_used / (1024 * 1024 * 1024), 3)
+print(f'Memory use: {memory_used_gb} GB')
 
 cpu_use = psutil.cpu_percent(interval=None)
 print(f'CPU use: {cpu_use} %')

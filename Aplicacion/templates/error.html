@@ -1,0 +1,23 @@
+<!-- Con esto extendemos de layout y todo lo que tenga layout estará en el index-->
+{% extends 'layout.html' %} 
+
+<!-- indicamos que empieza el body -->
+{% block body %} 
+
+<div class="contanier mx-5 my-5 text-center">
+    <div class = "mb-4">
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">¡No se pudo    realizar al acción!</h4>
+                    <p>No se puedo realizar la petición ya que la placa seleccionada no está disponible en estos momentos</p>
+                    <hr>
+                    <p class="mb-0">Comprueba las que sí lo están en<a href="/conexion" class="alert-link"> Comprobar conexión</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+    
+<!--Aquí indicamos que termian el body-->
+{% endblock %} 

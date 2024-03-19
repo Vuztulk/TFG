@@ -16,15 +16,17 @@ def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador='cpu')
         return "Placa no reconocida"
     if placa == 'Orin-GPU':
         procesador = 'gpu'
-    try:
-        response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador})
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        return render_template('error.html', error=str(e)) #Añadir error.html
+   
+    response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador})
+    return response.json()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
+
+@app.errorhandler(requests.exceptions.RequestException)
+def handle_request_exception(error):
+    return render_template('error.html', error=str(error))
 
 @app.route('/info', methods=['GET', 'POST'])
 def info():

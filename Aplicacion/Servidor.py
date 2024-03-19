@@ -63,8 +63,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-r', action='store_true', help='Argumento "r"')
-    parser.add_argument('-o-c', action='store_true', help='Argumento "o-c"')
-    parser.add_argument('-o-g', action='store_true', help='Argumento "o-g"')
+    parser.add_argument('-o-c', action='store_true', help='Argumento "o"')
     parser.add_argument('-l', action='store_true', help='Argumento "l"')
 
     args = parser.parse_args()
@@ -73,9 +72,7 @@ if __name__ == '__main__':
 
     if args.r:
         host = ''
-    elif args.o_c:
-        host = '0.0.0.0'
-    elif args.o_g:
+    elif args.o:
         host = '0.0.0.0'
     elif args.l:
         host = '127.0.0.1'

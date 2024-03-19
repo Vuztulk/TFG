@@ -15,9 +15,6 @@ from Modelos.Conexion import comprobar_conexion
 
 app = Flask(__name__)
 
-def get_current_venv():
-    return os.environ.get('VIRTUAL_ENV', None)
-
 @app.route('/', methods=['POST'])
 def recibir_texto():
     if request.method == 'POST':
@@ -54,12 +51,8 @@ def recibir_texto():
         try:
             cpu_func, gpu_func = funciones[accion][modelo]
             if procesador == 'gpu' and torch.cuda.is_available():
-                if get_current_venv() != '.venv_gpu':
-                    os.system("workon .venv_gpu")
                 resultado, t_cpu, t_total, memoria = gpu_func(texto, longitud)
             else:
-                if get_current_venv() != '.venv_cpu':
-                    os.system("workon .venv_cpu")
                 resultado, t_cpu, t_total, memoria = cpu_func(texto, longitud)
         except KeyError:
             resultado = 'Acción desconocida'

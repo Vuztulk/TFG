@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 import requests, ping3
 
 app = Flask(__name__)
@@ -12,22 +12,33 @@ URLS = {
 
 def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador='cpu'):
     url = URLS.get(placa)
-    
     if not url:
         return "Placa no reconocida"
-    
     if placa == 'Orin-GPU':
         procesador = 'gpu'
-        
-    try:
-        response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador})
-        return response.json()
-    except requests.exceptions.ConnectionError:
-        return render_template('error_conexion.html') #Aqui hay que poner un error_conexion.html
+    response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador})
+    return response.json()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
+
+@app.route('/conexion', methods=['GET', 'POST'])
+def conexion():
+    if request.method == 'POST':
+        placa = request.form.get('placa')
+        url = URLS.get(placa)
+        print(placa)
+        print(url)
+        resultado_ping = ping3.ping(url)
+        print(resultado_ping)
+        if resultado_ping:
+            estado = "ON"
+        else:
+            estado = "OFF"
+       
+        return render_template('conexion.html', estado=estado, placa=placa)
+    return render_template('conexion.html')
 
 @app.route('/<ruta>', methods=['GET', 'POST'])
 def ruta(ruta):
@@ -51,13 +62,7 @@ def ruta(ruta):
             
         return render_template(f'{ruta}.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo, longitud=longitud, memoria=memoria)
     
-    elif request.method == 'GET':
-        
-        placa = request.args.get('placa')
-        url = URLS.get(placa)
-
-        return render_template(f'{ruta}.html', estado={placa: "ON" if ping3.ping(url) else "OFF"})
-
+    return render_template(f'{ruta}.html')
 
 if __name__ == '__main__':
     app.run()

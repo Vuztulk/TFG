@@ -1,0 +1,80 @@
+<!-- Con esto extendemos de layout y todo lo que tenga layout estará en el index-->
+{% extends 'layout.html' %} 
+
+<!-- indicamos que empieza el body -->
+{% block body %} 
+
+<!-- Navegación para ir desde un dispositivo a otro y en el cuerpo tenemos la funcionalidad del modelo,
+esto más adelante se puede hacer una plantilla y que luego hereden de esto para que tengan lo mismo y no repetir tanto
+código-->
+<div class="card mx-5 my-5">
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="true" href="#">Local</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Orin-CPU</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Orin-GPU</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="true" href="#">Raspberry</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+
+        <!-- Formularios para poner el botón de comprobar conexión-->
+        <form action="#" id="conexion" method="post">
+            <div class = "mb-4">
+                {% if estado %}
+                <div>
+                    El estado de {{ placa }} es: {{ estado }}
+                </div>
+                {% endif %}
+                <button type="submit" class="btn btn-link btn-lg" name="submit_conexion">
+                    <svg class="bi my-1 theme-icon-active"><use href="#bi-broadcast"></use></svg> 
+                </button>         
+            </div>
+            <div>
+                <!-- Campos ocultos que sirven para guardar la placa y el modelo -->
+                <input type="hidden" id="placa" name="placa" value="Local">
+                <input type="hidden" id="modelo" name="modelo" value="marian">
+            </div>  
+        </form>
+
+    </div>
+</div>
+
+<script>
+    // Cambia el valor del campo oculto cuando se cambia de pestaña
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            document.getElementById('placa').value = this.innerText;
+        });
+    });
+
+    // Función para detectar el cambio en los radio buttons y actualizar el campo oculto
+    document.querySelectorAll('input[type=radio]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                document.getElementById('modelo').value = this.value;
+            });
+        });
+
+    // Cambia la pestaña activa dependiendo de al link que pulsemos en la navegación
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function() {
+            // Elimina la clase 'active' de todos los enlaces
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            // Agrega la clase 'active' solo al enlace clicado
+            this.classList.add('active');
+        });
+    });
+</script>
+
+<!--Aquí indicamos que termian el body-->
+{% endblock %} 

@@ -63,7 +63,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-r', action='store_true', help='Argumento "r"')
-    parser.add_argument('-o-c', action='store_true', help='Argumento "o"')
+    parser.add_argument('-o', action='store_true', help='Argumento "o"')
     parser.add_argument('-l', action='store_true', help='Argumento "l"')
 
     args = parser.parse_args()

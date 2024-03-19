@@ -1,0 +1,89 @@
+<!-- Con esto extendemos de layout y todo lo que tenga layout estará en el index-->
+{% extends 'layout.html' %} 
+
+<!-- indicamos que empieza el body -->
+{% block body %} 
+
+<div class="container text-center">
+    <div class="row">
+      <div class="col-md-4 mt-5">
+        <svg class="bi mx-3 my-3 theme-icon-active text-primary" style="font-size: 10rem;"><use href="#bi-robot"></use></svg>
+      </div>
+      <div class="col-md-8 mt-5">
+        <p>Esta aplicación está orientada para un trabajo de fin de grado de ingeniería informática, en
+          ella podrás realizar varias tareas de procesamiento de lenguaje natural. Estas tareas podrás realizarlas
+          en diferentes dispositivos (Raspberry, Orin-CPU, Orin-CPU, Local) para evaluar el procesamiento del lenguaje
+          en cada uno de ellos. A su vez, tenemos diferentes modelos que puedes utilizar para cada problema para 
+          que puedas aprovechar al maximo el rendimiento, eligiendo el que más te convenga. En algunos de los problemas también 
+          podrás elegir la longitud de palabras que quieres que te devuelva el modelo. Al realizar las peticiones te devolverá
+          tanto la resolución del problema, como también los tiempos de inferencia, tiempos total y memoria utilizada.
+          Los problemas y sus respectivos modelos son los siguientes: </p>
+    </div>
+    </div>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="card my-3">
+                <div class="card-header">
+                  Traductor
+                </div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>Podrás traducir un texto tanto de español a inglés como de inglés a español</p>
+                    <footer class="blockquote-footer">Modelos: <cite title="Source Title">Marian, Cartenisus, Autotrain </cite></footer>
+                  </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card my-3">
+                <div class="card-header">
+                  Clasificación de sentimientos
+                </div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>Podrás introducir un texto y que te clasifique si los sentimientos derivados son negativos o positivos</p>
+                    <footer class="blockquote-footer">Modelos: <cite title="Source Title">DistilBERT, RoBERTa, SBCI</cite></footer>
+                  </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card col my-3">
+                <div class="card-header">
+                  Predictor de texto
+                </div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>Podrás predecir un texto con sentido con una longitud indicada</p>
+                    <footer class="blockquote-footer">Modelos: <cite title="Source Title">GPT-2</cite></footer>
+                  </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card my-3">
+                <div class="card-header">
+                  Resumir texto
+                </div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>Podrás resumir un texto de entrada con la longitud que tu indiques</p>
+                    <footer class="blockquote-footer">Modelos: <cite title="Source Title">Bart, T5</cite></footer>
+                  </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+      <p>
+        Si tienes alguna duda, es recomendable mirar el modo de uso dentro de cada problema al igual que leer 
+        el modal principal al entrar en cada uno de los problemas.
+      </p>
+    </div>
+</div>
+
+<!--Aquí indicamos que termian el body-->
+{% endblock %} 
+

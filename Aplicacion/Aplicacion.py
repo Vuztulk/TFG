@@ -26,6 +26,10 @@ def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador='cpu')
 def index():
     return render_template('index.html')
 
+@app.route('/info', methods=['GET', 'POST'])
+def info():
+    return render_template('info.html')
+
 @app.route('/conexion', methods=['GET', 'POST'])
 def conexion():
     if request.method == 'POST':

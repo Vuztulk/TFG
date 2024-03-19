@@ -65,6 +65,7 @@ if __name__ == '__main__':
     parser.add_argument('-r', action='store_true', help='Argumento "r"')
     parser.add_argument('-o', action='store_true', help='Argumento "o"')
     parser.add_argument('-l', action='store_true', help='Argumento "l"')
+    parser.add_argument('-p', type=int, default=8888, help='Puerto para ejecutar el servidor (default: 8888)')
 
     args = parser.parse_args()
 
@@ -77,4 +78,5 @@ if __name__ == '__main__':
     elif args.l:
         host = '127.0.0.1'
         
-    app.run(host=host, port=8888)
+    app.run(host=host, port=args.p)
+

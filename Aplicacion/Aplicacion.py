@@ -31,8 +31,8 @@ def conexion():
         if url:
             host = url.split('//')[1].split(':')[0]  # Extraer el host de la URL
             resultado_ping = ping3.ping(host)
-
-            if resultado_ping == 'None':
+            print(resultado_ping)
+            if resultado_ping is None:
                 estado = "OFF"
             else:
                 estado = "ON"

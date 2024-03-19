@@ -28,14 +28,16 @@ def conexion():
     if request.method == 'POST':
         placa = request.form.get('placa')
         url = URLS.get(placa)
-        print(placa)
-        print(url)
-        resultado_ping = ping3.ping(url)
-        print(resultado_ping)
-        if resultado_ping:
-            estado = "ON"
+        if url:
+            host = url.split('//')[1].split(':')[0]  # Extraer el host de la URL
+            resultado_ping = ping3.ping(host)
+
+            if resultado_ping == 'None':
+                estado = "OFF"
+            else:
+                estado = "ON"
         else:
-            estado = "OFF"
+            estado = "Placa no reconocida"
        
         return render_template('conexion.html', estado=estado, placa=placa)
     return render_template('conexion.html')

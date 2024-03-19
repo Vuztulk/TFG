@@ -29,19 +29,48 @@ código-->
         <!-- Formularios para poner el botón de comprobar conexión-->
         <form action="#" id="conexion" method="post">
             <div class = "mb-4">
-                {% if estado %}
-                <div>
-                    El estado de {{ placa }} es: {{ estado }}
+                
+                <div class="row">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-link btn-lg" name="submit_conexion">
+                            <svg class="bi theme-icon-active" style="font-size: 4rem;"><use href="#bi-broadcast"></use></svg> 
+                        </button> 
+                    </div>
+                    <div class="col">
+                        {% if estado %}
+                            {% if estado == 'OFF'%}
+                            <div class="alert alert-danger d-flex align-items-center my-3" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                <div>
+                                    La conexión con <strong>{{placa}} no</strong> está en funcionamiento.       
+                                </div>
+                                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% elif estado == 'ON' %}
+                            <div class="alert alert-success d-flex align-items-center my-3" role="alert">
+                                <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                                <div>
+                                    La conexión con <strong>{{placa}}</strong> está funcionando <strong>correctamente</strong>.
+                                </div>
+                                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="alert alert-dark d-flex align-items-center my-3" role="alert">
+                                <div>
+                                    Comprueba la conexión mediante el icono, para saber cual podrás
+                                    utilizar para la resolución de los problemas.
+                                </div>
+                                <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
-                {% endif %}
-                <button type="submit" class="btn btn-link btn-lg" name="submit_conexion">
-                    <svg class="bi my-1 theme-icon-active"><use href="#bi-broadcast"></use></svg> 
-                </button>         
+
             </div>
             <div>
                 <!-- Campos ocultos que sirven para guardar la placa y el modelo -->
                 <input type="hidden" id="placa" name="placa" value="Local">
-                <input type="hidden" id="modelo" name="modelo" value="marian">
             </div>  
         </form>
 
@@ -56,12 +85,6 @@ código-->
         });
     });
 
-    // Función para detectar el cambio en los radio buttons y actualizar el campo oculto
-    document.querySelectorAll('input[type=radio]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                document.getElementById('modelo').value = this.value;
-            });
-        });
 
     // Cambia la pestaña activa dependiendo de al link que pulsemos en la navegación
     document.querySelectorAll('.nav-link').forEach(link => {

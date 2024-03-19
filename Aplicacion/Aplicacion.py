@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request
-import requests
+from flask import Flask, render_template, request, jsonify
+import requests, ping3
 
 app = Flask(__name__)
 
@@ -12,12 +12,18 @@ URLS = {
 
 def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador='cpu'):
     url = URLS.get(placa)
+    
     if not url:
         return "Placa no reconocida"
+    
     if placa == 'Orin-GPU':
         procesador = 'gpu'
-    response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador})
-    return response.json()
+        
+    try:
+        response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador})
+        return response.json()
+    except requests.exceptions.ConnectionError:
+        return render_template('error_conexion.html') #Aqui hay que poner un error_conexion.html
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -45,7 +51,12 @@ def ruta(ruta):
             
         return render_template(f'{ruta}.html', resultado=resultado, placa=placa, t_cpu=t_cpu, t_total=t_total, modelo=modelo, longitud=longitud, memoria=memoria)
     
-    return render_template(f'{ruta}.html')
+    elif request.method == 'GET':
+        
+        placa = request.args.get('placa')
+        url = URLS.get(placa)
+
+        return render_template(f'{ruta}.html', estado = {placa: ping3.ping(url)})
 
 if __name__ == '__main__':
     app.run()

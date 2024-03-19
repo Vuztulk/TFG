@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-import requests, ping3
+import requests
 
 app = Flask(__name__)
 
@@ -16,8 +16,11 @@ def procesar_solicitud(accion, placa, texto, modelo, longitud, procesador='cpu')
         return "Placa no reconocida"
     if placa == 'Orin-GPU':
         procesador = 'gpu'
-    response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador})
-    return response.json()
+    try:
+        response = requests.post(url, data={'accion': accion, 'texto': texto, 'modelo': modelo, 'longitud': longitud, 'procesador': procesador})
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        return render_template('error.html', error=str(e)) #Añadir error.html
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -27,11 +30,13 @@ def index():
 def conexion():
     if request.method == 'POST':
         placa = request.form.get('placa')
-        estado = "Placa no reconocida"
-        if URLS.get(placa):
-            resultado_ping = ping3.ping(URLS.get(placa).split('//')[1].split(':')[0])
-            estado = "OFF" if resultado_ping is None else "ON"
-        return render_template('conexion.html', estado=estado, placa=placa)
+        try:
+            response_data = requests.post(URLS.get(placa), data={'accion': 'conexion', 'texto': 0, 'modelo': 'conexion', 'longitud': 0, 'procesador': 0}).json()
+            estado = response_data.get('resultado', '')
+            return render_template('conexion.html', estado=estado, placa=placa)
+        except requests.exceptions.RequestException as e:
+            estado = "OFF"
+            return render_template('conexion.html', estado=estado, placa=placa)
     return render_template('conexion.html')
 
 

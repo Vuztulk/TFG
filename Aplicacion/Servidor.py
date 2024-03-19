@@ -11,6 +11,7 @@ from Modelos.Clasificacion_Sentimientos.sbcBI import sent_sbcbi_cpu, sent_sbcbi_
 from Modelos.Predictor_Texto.gpt2 import pred_gpt2_cpu, pred_gpt2_gpu
 from Modelos.Resumen_Texto.bart import res_bart_cpu, res_bart_gpu
 from Modelos.Resumen_Texto.T5 import res_t5_cpu, res_t5_gpu
+from Modelos.Conexion import comprobar_conexion
 
 app = Flask(__name__)
 
@@ -44,6 +45,9 @@ def recibir_texto():
             'resumen': {
                 'bart': (res_bart_cpu, res_bart_gpu),
                 't5': (res_t5_cpu, res_t5_gpu)
+            },
+            'conexion': {
+                'conexion': (comprobar_conexion, comprobar_conexion),
             }
         }
 

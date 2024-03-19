@@ -56,7 +56,8 @@ def ruta(ruta):
         placa = request.args.get('placa')
         url = URLS.get(placa)
 
-        return render_template(f'{ruta}.html', estado = {placa: ping3.ping(url)})
+        return render_template(f'{ruta}.html', estado={placa: "ON" if ping3.ping(url) else "OFF"})
+
 
 if __name__ == '__main__':
     app.run()

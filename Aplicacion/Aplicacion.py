@@ -27,20 +27,13 @@ def index():
 def conexion():
     if request.method == 'POST':
         placa = request.form.get('placa')
-        url = URLS.get(placa)
-        if url:
-            host = url.split('//')[1].split(':')[0]  # Extraer el host de la URL
-            resultado_ping = ping3.ping(host)
-            print(resultado_ping)
-            if resultado_ping is None:
-                estado = "OFF"
-            else:
-                estado = "ON"
-        else:
-            estado = "Placa no reconocida"
-       
+        estado = "Placa no reconocida"
+        if URLS.get(placa):
+            resultado_ping = ping3.ping(URLS.get(placa).split('//')[1].split(':')[0])
+            estado = "OFF" if resultado_ping is None else "ON"
         return render_template('conexion.html', estado=estado, placa=placa)
     return render_template('conexion.html')
+
 
 @app.route('/<ruta>', methods=['GET', 'POST'])
 def ruta(ruta):

@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 URLS = {
     'Local': 'http://127.0.0.1:8888',
-    'Raspberry': 'http://sardina.dacya.ucm.es:16992',
-    'Orin-CPU': 'http://sardina.dacya.ucm.es:16992',
+    'Raspberry': '',
+    'Orin-CPU': 'http://sardina.dacya.ucm.es:16994',
     'Orin-GPU': 'http://sardina.dacya.ucm.es:16992'
 }
 

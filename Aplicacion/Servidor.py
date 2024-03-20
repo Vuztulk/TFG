@@ -72,7 +72,7 @@ if __name__ == '__main__':
     host = '127.0.0.1'
 
     if args.r:
-        host = ''
+        host = '0.0.0.0'
     elif args.o:
         host = '0.0.0.0'
     elif args.l:

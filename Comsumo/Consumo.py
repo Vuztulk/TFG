@@ -4,7 +4,7 @@ power_values_cpu = []
 power_values_sys = []
 power_values_gpu = []
 
-with open('Problemas/tegrastats', 'r') as file:
+with open('Comsumo/tegrastats', 'r') as file:
     for line in file:
         match_cpu = re.search(r'VDD_CPU_CV (\d+)mW', line)
         match_sys = re.search(r'VIN_SYS_5V0 (\d+)mW', line)

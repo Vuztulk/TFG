@@ -1,8 +1,7 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import MarianMTModel, MarianTokenizer
-import psutil
-import os
+import subprocess
 import time
 
 # Función para realizar la inferencia del modelo
@@ -31,9 +30,10 @@ with open('resultados.txt', 'w') as f:
         # Realizar la inferencia del modelo con el perfilador
         with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
+                process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt'])
                 output_text = model_inference(input_text)
+                process_tegra.terminate()
 
-        # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:
             cpu_time = model_inference_event[0].cpu_time_total
@@ -41,19 +41,6 @@ with open('resultados.txt', 'w') as f:
             cpu_time_str = f'{cpu_time_seconds:.4f}'.replace('.', ',')
             f.write(f'{cpu_time_str}\n')
 
-        # Imprimimos la clase predicha
-        #f.write(f'Texto de entrada: {input_text}\n')
-        #f.write(f'Texto de salida: {output_text}\n')
-
-        # Métricas adicionales
-        #pid = os.getpid()
-        #py = psutil.Process(pid)
-
-        #memory_use = py.memory_info()[0]/2.**30  # memory use in GB
-        #f.write(f'Uso de memoria: {memory_use} GB\n')
-
-        #cpu_use = psutil.cpu_percent(interval=None)
-        #f.write(f'Uso de CPU: {cpu_use} %\n')
 
         end_time = time.time()
         duration = end_time - start_time

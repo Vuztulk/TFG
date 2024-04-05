@@ -35,8 +35,8 @@ with open('resultados.txt', 'w') as f:
             process_tegra.terminate()
 
             # Escribir la salida y errores en el archivo
-            f.write(f'Tegrastats Output:\n{output_tegra.decode("utf-8")}\n')
-            f.write(f'Tegrastats Errors:\n{errors_tegra.decode("utf-8")}\n')
+            #f.write(f'Tegrastats Output:\n{output_tegra.decode("utf-8")}\n')
+            #f.write(f'Tegrastats Errors:\n{errors_tegra.decode("utf-8")}\n')
 
         # Guardar las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

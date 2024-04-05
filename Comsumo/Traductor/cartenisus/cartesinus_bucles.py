@@ -17,16 +17,16 @@ with open('resultados.txt', 'w') as f:
 
         input_ids = tokenizer.encode(input_text, return_tensors='pt')
 
-        with open('tegrastats.txt', 'w') as f:
-            #process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            process_tegra = subprocess.Popen('/usr/bin/tegrastats', stdout=f)
-
         with torch.no_grad(), profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
+                with open('tegrastats.txt', 'w') as f:
+                    #process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    process_tegra = subprocess.Popen('/usr/bin/tegrastats', stdout=f)
+                    
+                    generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
                 
-        output_tegra = process_tegra.communicate()
-        process_tegra.terminate()
+                    output_tegra = process_tegra.communicate()
+                    process_tegra.terminate()
 
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:

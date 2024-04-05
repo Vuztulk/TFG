@@ -22,8 +22,8 @@ with open('resultados.txt', 'w') as f:
         input_ids = tokenizer.encode(input_text, return_tensors='pt')
 
         # Ejecutar tegrastats antes de la inferencia
-        process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
+        #process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process_tegra = subprocess.Popen('/usr/bin/tegrastats', stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
             # Realizar la inferencia del modelo
             with torch.no_grad(), profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
@@ -31,7 +31,7 @@ with open('resultados.txt', 'w') as f:
                     generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
         finally:
             # Capturar la salida de tegrastats
-            output_tegra, errors_tegra = process_tegra.communicate()
+            #output_tegra, errors_tegra = process_tegra.communicate()
             process_tegra.terminate()
 
             # Escribir la salida y errores en el archivo

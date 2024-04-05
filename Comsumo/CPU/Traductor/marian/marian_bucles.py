@@ -32,7 +32,8 @@ with open('resultados.txt', 'w') as f:
             with record_function("model_inference"):
                 process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt','--interval','500'])
                 output_text = model_inference(input_text)
-                process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--stop'])
+                #process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--stop'])
+                process_tegra.wait()
                 process_tegra.terminate()
 
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

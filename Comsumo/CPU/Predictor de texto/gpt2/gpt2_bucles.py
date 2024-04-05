@@ -29,6 +29,7 @@ with open('resultados.txt', 'w') as f:
                 with record_function("model_inference"):
                     process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt','--interval','500'])
                     outputs = model.generate(input_ids, max_length=100, temperature=0.7, num_return_sequences=1, do_sample=True, attention_mask=attention_mask)
+                    process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--stop'])
                     process_tegra.terminate()
 
         # Guardamos las métricas del perfilador en el archivo

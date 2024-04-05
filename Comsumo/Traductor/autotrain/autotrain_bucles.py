@@ -25,7 +25,7 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
-                    process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt'])
+                    process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt','--interval','500'])
                     outputs = model.generate(input_ids, max_length=200, num_return_sequences=1)
                     process_tegra.terminate()
                     

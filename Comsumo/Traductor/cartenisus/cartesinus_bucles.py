@@ -19,7 +19,7 @@ with open('resultados.txt', 'w') as f:
 
         with torch.no_grad(), profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats' '-logfile' 'tegrastats.txt'])
+                process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats', '-logfile', 'tegrastats.txt'])
                 #process_tegra = subprocess.Popen('/usr/bin/tegrastats', stdout=f, stderr=subprocess.PIPE)
                     
                 generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))

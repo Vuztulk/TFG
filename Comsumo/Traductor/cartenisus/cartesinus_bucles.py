@@ -22,7 +22,7 @@ with open('resultados.txt', 'w') as f:
         input_ids = tokenizer.encode(input_text, return_tensors='pt')
 
         # Ejecutar tegrastats antes de la inferencia
-        process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'])
+        process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         try:
             # Realizar la inferencia del modelo

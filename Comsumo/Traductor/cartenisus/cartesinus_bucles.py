@@ -25,22 +25,17 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
-                    # Ejecutar el comando justo antes de la inferencia
                     process = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE)
                     output_before, _ = process.communicate()
 
-                    # Realizar la inferencia
                     generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
 
-                    # Ejecutar el comando justo después de la inferencia
                     process = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE)
                     output_after, _ = process.communicate()
 
-                    # Ahora output_before y output_after son objetos Python (bytes) que contienen la salida del comando
-                    # Puedes convertirlos a una cadena si lo necesitas
                     output_before_str = output_before.decode('utf-8')
                     output_after_str = output_after.decode('utf-8')
-        
+        print(output_after_str)
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:

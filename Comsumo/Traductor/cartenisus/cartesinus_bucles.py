@@ -14,14 +14,15 @@ with open('resultados.txt', 'w') as f:
     for i in range(1):
         start_time = time.time()
 
-        with open('./input.txt', 'r') as file:
+        # Leer el texto de entrada desde un archivo .txt
+        with open('/home/tfg1/TFG/Problemas/Traductor/input.txt', 'r') as file:
             input_text = file.read().replace('\n', '')
 
         # Codificar entrada
         input_ids = tokenizer.encode(input_text, return_tensors='pt')
 
         # Ejecutar tegrastats antes de la inferencia
-        process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE)
+        process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
         try:
             # Realizar la inferencia del modelo
@@ -29,9 +30,14 @@ with open('resultados.txt', 'w') as f:
                 with record_function("model_inference"):
                     generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
         finally:
+            # Capturar la salida de tegrastats
+            output_tegra, errors_tegra = process_tegra.communicate()
 
-            process_tegra.terminate()
+            # Escribir la salida y errores en el archivo
+            f.write(f'Tegrastats Output:\n{output_tegra.decode("utf-8")}\n')
+            f.write(f'Tegrastats Errors:\n{errors_tegra.decode("utf-8")}\n')
 
+        # Guardar las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:
             cpu_time = model_inference_event[0].cpu_time_total

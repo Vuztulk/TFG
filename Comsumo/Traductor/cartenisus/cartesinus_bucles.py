@@ -19,14 +19,13 @@ with open('resultados.txt', 'w') as f:
 
         with torch.no_grad(), profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                with open('tegrastats.txt', 'w') as f:
-                    process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=f)
-                    #process_tegra = subprocess.Popen('/usr/bin/tegrastats', stdout=f, stderr=subprocess.PIPE)
+                process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats -logfile tegrastats.txt'])
+                #process_tegra = subprocess.Popen('/usr/bin/tegrastats', stdout=f, stderr=subprocess.PIPE)
                     
-                    generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
+                generated_tokens = model.generate(input_ids=input_ids, forced_bos_token_id=tokenizer.get_lang_id("es"))
                 
-                    output_tegra = process_tegra.communicate()
-                    process_tegra.terminate()
+                output_tegra = process_tegra.communicate()
+                process_tegra.terminate()
 
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]
         if model_inference_event:

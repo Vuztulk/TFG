@@ -30,7 +30,7 @@ with open('resultados.txt', 'w') as f:
         # Realizar la inferencia del modelo con el perfilador
         with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
             with record_function("model_inference"):
-                process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt'])
+                process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt','--interval','500'])
                 output_text = model_inference(input_text)
                 process_tegra.terminate()
 

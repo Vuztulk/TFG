@@ -2,6 +2,7 @@ import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import BartForConditionalGeneration, BartTokenizer
 import time
+import subprocess
 
 # Cargar el tokenizador y el modelo
 tokenizer = BartTokenizer.from_pretrained("facebook/bart-large-cnn")
@@ -14,7 +15,7 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
         # Leer el texto de entrada desde un archivo .txt
-        with open('/home/tfg1/TFG/Problemas/Resumen de texto/input.txt', 'r') as file:
+        with open('./input.txt', 'r') as file:
             input_text = file.read().replace('\n', '')
 
         # Codificar entrada
@@ -24,7 +25,9 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
+                    process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt'])
                     summary_ids = model.generate(inputs.input_ids, num_beams=4, min_length=30, max_length=100, early_stopping=True)
+                    process_tegra.terminate()
 
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

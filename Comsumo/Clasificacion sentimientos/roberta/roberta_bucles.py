@@ -1,8 +1,7 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
-import psutil
-import os
+import subprocess
 import time
 
 # Cargamos el modelo y el tokenizador preentrenados
@@ -16,7 +15,7 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
         # Definimos una frase de entrada
-        with open('/home/tfg1/TFG/Problemas/Clasificacion sentimientos/input.txt', 'r') as file:
+        with open('./input.txt', 'r') as file:
             input_text = file.read().strip()
 
         encoded_input = tokenizer(input_text, return_tensors='pt')
@@ -25,9 +24,11 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
+                    process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--logfile', 'tegrastats.txt'])
                     outputs = model(**encoded_input)
                     logits = outputs.logits
                     predicted_class = torch.argmax(logits).item()
+                    process_tegra.terminate()
 
         # Guardamos las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

@@ -32,6 +32,7 @@ with open('resultados.txt', 'w') as f:
         finally:
             # Capturar la salida de tegrastats
             output_tegra, errors_tegra = process_tegra.communicate()
+            process_tegra.terminate()
 
             # Escribir la salida y errores en el archivo
             f.write(f'Tegrastats Output:\n{output_tegra.decode("utf-8")}\n')

@@ -17,8 +17,8 @@ with open('resultados.txt', 'w') as f:
 
         input_ids = tokenizer.encode(input_text, return_tensors='pt')
 
-        #process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         with open('tegrastats.txt', 'w') as f:
+            #process_tegra = subprocess.Popen(['sudo', '/usr/bin/tegrastats'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             process_tegra = subprocess.Popen('/usr/bin/tegrastats', stdout=f)
 
         with torch.no_grad(), profile(activities=[ProfilerActivity.CPU], record_shapes=True) as prof:

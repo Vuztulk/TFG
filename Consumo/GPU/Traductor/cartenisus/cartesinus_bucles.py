@@ -15,7 +15,7 @@ model = model.to(device)
 # Abrir el archivo de resultados
 with open('resultados.txt', 'w') as f:
     # Ejecutar el código 10 veces
-    for i in range(10):
+    for i in range(1):
         start_time = time.time()
 
         # Leer el texto de entrada desde un archivo .txt

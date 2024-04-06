@@ -18,6 +18,10 @@ def model_inference(input_text):
         outputs = model.generate(encoded_input, max_length=200, num_return_sequences=1)
     # Decodificar la salida
     output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    output_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    print(f'Texto de entrada: {input_text}\n')
+    print(f'Texto de salida: {output_text}')
+    
     return output_text
 
 # Abrimos el archivo de resultados
@@ -49,3 +53,4 @@ with open('resultados.txt', 'w') as f:
         duration = end_time - start_time
         duration_str = f'{duration:.4f}'.replace('.', ',')
         f.write(f'{duration_str}\n')
+        

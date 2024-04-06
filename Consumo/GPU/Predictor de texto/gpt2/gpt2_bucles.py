@@ -45,7 +45,3 @@ with open('resultados.txt', 'w') as f:
         duration = end_time - start_time
         duration_str = f'{duration:.4f}'.replace('.', ',')
         f.write(f'{duration_str}\n')
-        
-        power_draw_output = subprocess.check_output(['nvidia-smi', '--query-gpu=power.draw', '--format=csv,noheader,nounits'])
-        power_draw = power_draw_output.decode('utf-8').strip()
-        f.write(f'Consumo de energia de la GPU: {power_draw} watts\n')

@@ -18,7 +18,7 @@ with open('resultados.txt', 'w') as f:
         start_time = time.time()
 
 
-        with open('GPU\Predictor de texto\gpt2\input.txt', 'r') as file:
+        with open('./input.txt', 'r') as file:
             input_text = file.read().replace('\n', '')
 
         input_ids = tokenizer.encode(input_text, return_tensors='pt').to(device)

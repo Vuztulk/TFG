@@ -1,7 +1,7 @@
 import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-import os
+import subprocess
 import time
 
 # Verificar si hay una GPU disponible
@@ -29,7 +29,10 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
+                    process_tegra = subprocess.Popen(['sudo','/usr/bin/tegrastats', '--logfile', 'tegrastats.txt','--interval','500'])
                     outputs = model.generate(input_ids, max_length=200, num_return_sequences=1)
+                    process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--stop'])
+                    process_tegra.terminate()
 
         # Guardar las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

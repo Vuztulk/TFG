@@ -2,8 +2,8 @@ import torch
 from torch.profiler import profile, record_function, ProfilerActivity
 from transformers import BartForConditionalGeneration, BartTokenizer
 import time
+import subprocess
 
-# Verificar si hay una GPU disponible
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Cargar el tokenizador y el modelo
@@ -28,7 +28,10 @@ with open('resultados.txt', 'w') as f:
         with torch.no_grad():
             with profile(activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU], record_shapes=True) as prof:
                 with record_function("model_inference"):
+                    process_tegra = subprocess.Popen(['sudo','/usr/bin/tegrastats', '--logfile', 'tegrastats.txt','--interval','500'])
                     summary_ids = model.generate(inputs.input_ids, num_beams=4, min_length=30, max_length=100, early_stopping=True)
+                    process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--stop'])
+                    process_tegra.terminate()
 
         # Guardar las métricas del perfilador en el archivo
         model_inference_event = [item for item in prof.key_averages() if item.key == "model_inference"]

@@ -28,6 +28,7 @@ with open('resultados.txt', 'w') as f:
                     outputs = model(**encoded_input)
                     logits = outputs.logits
                     predicted_class = torch.argmax(logits).item()
+                    process_tegra = subprocess.Popen(['/usr/bin/tegrastats', '--stop'])
                     process_tegra.terminate()
 
         # Guardamos las métricas del perfilador en el archivo
